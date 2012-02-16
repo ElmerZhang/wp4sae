@@ -1,0 +1,190 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP-Codebox 1.3.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-12-20 14:35+0800\n"
+"PO-Revision-Date: 2009-12-20 14:35+0800\n"
+"Last-Translator: ERIC WANG <eric.wzy@gmail.com>\n"
+"Language-Team: WP-Codebox-ES <shakaran@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: Spanish\n"
+"X-Poedit-Country: SPAIN\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: main.php:106
+#: backup/main.php:113
+#: backup/main_jquery.php:115
+msgid "[Copy to clipboard]"
+msgstr "[Copiar al portapapeles]"
+
+#: main.php:115
+#: backup/main.php:122
+#: backup/main_jquery.php:124
+msgid "Download"
+msgstr "Descargar"
+
+#: main.php:117
+#: backup/main.php:131
+#: backup/main_jquery.php:133
+msgid "View Code"
+msgstr "Ver código"
+
+#: option.php:9
+msgid "Configuration"
+msgstr "Configuración"
+
+#: option.php:10
+msgid "You are not Options Manager &amp; hence you cannot configure <strong>WP-Codebox</strong>. If you are admin, then please Logout &amp; Login again."
+msgstr "No eres un <strong>nivel 8</strong> o USUARIO superior y además no puedes configurar <strong>WP-CodeBox</strong>. Si eres <strong>nivel 8</strong> o un USUARIO superior, entonces por favor desconéctate y conéctate de nuevo."
+
+#: option.php:13
+msgid "Access Denied"
+msgstr ""
+
+#: option.php:69
+msgid "WP-CodeBox-Configration"
+msgstr "WP-CodeBox - Configuración"
+
+#: option.php:73
+#, fuzzy
+msgid "You can configure <strong>WP-CODEBOX</strong> here. It's easy to configure highlighter style/formatting.<br />Since the plugin is developing, in the future it will support more options.<em>CSS option,Keyword display style,Auto Caps/Nocaps,Case Sensitivity etc</em>. <br /> By the way, please consider making a small donation. all donations, even the small ones, help to defray my costs and support continued development. <br />Besides, all donators get a link on the main <strong><a href=\"http://www.ericbess.com/ericblog/2008/03/03/wp-codebox/\">WP-codebox page</a></strong> and its daily 200 - 500 unique visitors."
+msgstr "Puedes configurar <strong>WP-CODEBOX</strong> aquí. Es fácil configurar el estilo/formato del resaltado.<br />Dado que el plugin está desarrollo, en el futuro se apoyará más opciones.<em>Opciones, estilos mostrados de palabras clave, Auto mayúsculas/Sin mayúsculas, Sensibilidad a mayúsculas, etc</em>. <br /> Por cierto, por favor, considere la posibilidad de hacer una pequeña donación. Todas las donaciones, incluso las pequeñas, ayudan a sufragar mis gastos y el apoyo continuo al desarrollo. <br />Además, todos los donadores consiguen un enlace en la página principal de <strong><a href=\"http://www.ericbess.com/ericblog/2008/03/03/wp-codebox/\">WP-codebox</a></strong> y diariamente de 200 a 500 visitantes únicos."
+
+#: option.php:101
+msgid "DEFAULT OPTIONS"
+msgstr "OPCIONES POR DEFECTO"
+
+#: option.php:105
+msgid "Hide the Function Bar"
+msgstr "Esconder la barra de funciones"
+
+#: option.php:106
+msgid "Just show the codebox only."
+msgstr "Solo mostar la caja de código."
+
+#: option.php:110
+msgid "Collapse Codebox"
+msgstr "Colapsar la cája de código"
+
+#: option.php:111
+msgid "If you turn this option on, do no hide the function bar. The tag <em><strong>colla=\"+/-\"</strong></em> will switch the attribute in the single codebox."
+msgstr "If you turn this option on, do no hide the function bar. The tag <em><strong>colla=\"+/-\"</strong></em> will switch the attribute in the single codebox.Si se activa esta opción, no se ocultara la barra de función. La etiqueta <em><strong>colla=\"+/-\"</strong></em> se cambiará por el atribulo en la única caja de texto."
+
+#: option.php:117
+msgid "Default show Line Number"
+msgstr "Por defecto mostrar el número de línea"
+
+#: option.php:118
+msgid "Line Number display default setting. The tag <em><strong>line=\"n\"</strong></em> will hide the single codebox."
+msgstr "Mostrar configuración por defecto para el número de linea. La etiqueta <em><strong>line=\"n\"</strong></em> se esconderá en la única caja de código."
+
+#: option.php:122
+msgid "Strict Mode"
+msgstr "Modo estricto"
+
+#: option.php:123
+msgid "Strict Mode means that if your language is a scripting language (such as PHP), then highlighting will only be done on the code between appropriate code delimiters (eg &lt;?php ,&gt;)."
+msgstr "El modo estricto significa que si tu lenguaje es un lenguaje de script (como PHP), entonces el resaltado solo será hecho en el código entre los delimitadores de código apropiados (por ejemplo &lt;?php ,&gt;)."
+
+#: option.php:130
+msgid "GESHI_CAPS_UPPER"
+msgstr "GESHI_CAPS_UPPER"
+
+#: option.php:130
+#: option.php:131
+#: option.php:132
+msgid " selected"
+msgstr "seleccionado"
+
+#: option.php:130
+msgid "CAPS_UPPER"
+msgstr "CAPS_UPPER"
+
+#: option.php:131
+msgid "GESHI_CAPS_LOWER"
+msgstr "GESHI_CAPS_LOWER"
+
+#: option.php:131
+msgid "CAPS_LOWER"
+msgstr "CAPS_LOWER"
+
+#: option.php:132
+msgid "GESHI_CAPS_NO_CHANGE"
+msgstr "GESHI_CAPS_NO_CHANGE"
+
+#: option.php:132
+msgid "CAPS_NO_CHANGE"
+msgstr "CAPS_NO_CHANGE"
+
+#: option.php:133
+msgid "Auto-Caps/Nocaps"
+msgstr "Auto-mayúsculas/Sin mayúsculas"
+
+#: option.php:134
+msgid "capitalises or lowercases automatically certain lexics when they are styled."
+msgstr "Capitaliza o descapitaliza automáticamente determinados léxicos cuando son de estilo."
+
+#: option.php:138
+msgid "Tab Width (in spaces)"
+msgstr "Ancho del tabulador (en espacios)"
+
+#: option.php:139
+msgid "Tabs in your input will be turned into this many spaces (maximum of 20)."
+msgstr "Los tabuladores en su entrada se convertirán en este número de espacios (un máximo de 20)."
+
+#: option.php:145
+msgid "All URLs for Keywords Activated"
+msgstr "Todas las URLs para palabras clave activadas"
+
+#: option.php:146
+msgid "System automatic keywords link to the API documentation inserting, this option you can enable all URL linking for keywords ."
+msgstr "El sistema automático de vínculos de palabras clave a la documentación de la API de insertado, esta opción puede habilitar la vinculación de todas las palabras clave con URL."
+
+#: option.php:150
+msgid "Wrap Overflowing Text"
+msgstr "Envolver texto desbordado"
+
+#: option.php:151
+msgid "Lines will be wrapped when they reach the width of the screen."
+msgstr "Las líneas serán envueltas cuando alcancen el ancho de la pantalla."
+
+#: option.php:446
+msgid "Configuration Complete"
+msgstr "Configuración completa"
+
+#: option.php:448
+msgid "Highlight Preview!"
+msgstr "¡Resaltado previo!"
+
+#: option.php:450
+msgid "Update Options"
+msgstr "Actualizar opciones"
+
+#: option.php:452
+msgid "Reset"
+msgstr "Reiniciar"
+
+#: wp-codebox.php:56
+#: backup/wp-codebox.php:62
+msgid "WP-CodeBox Options"
+msgstr "WP-CodeBox - Opciones"
+
+#: wp-codebox.php:56
+#: backup/wp-codebox.php:62
+msgid "WP-CodeBox"
+msgstr "WP-CodeBox"
+
+#: wp-codebox.php:85
+#: backup/wp-codebox.php:79
+msgid "Settings"
+msgstr ""
+
+#: wp-codebox.php:95
+msgid "Donate"
+msgstr ""
+

@@ -1,0 +1,335 @@
+.smc_connect_area,
+.smc_connect_area li{
+	margin:0;
+	padding:0;
+}
+.smc_connect_area li{
+	list-style:none;
+}
+#wpbody-content .smc_connect_area a,
+#weibobind a{
+	text-decoration:none;
+}
+.smc_admin_radio input,
+.smc_admin_radio img{
+	vertical-align:top;
+}
+#smc_icon_size_set{
+	display:none;
+}
+#smc-meta_box .inside{
+	margin:0;
+	padding:0;
+}
+#post-body #smc-meta_box .misc-pub-section{
+	width:23%;
+	padding:6px 1%;
+}
+#post-body #smc-meta_box .inside .smc-last-child{
+	float:right;
+	width:22.9%;
+}
+#post-body #smc-meta_box .inside .smc-last2-child{
+	border-right:0;
+}
+#weibobind input{
+	margin-right:20px;
+	margin-left:10px;
+	position:relative;
+	top:-10px;
+}
+#smc_allow li{
+	float:left;
+	width:32px;
+	height:32px;
+	text-align:center;
+	margin-right:15px;
+}
+#smc_allow li input{
+	margin-top:10px;
+}
+#smc_allow li.smc_sinaweibo{
+	background:url(images/sinaweibo.png) no-repeat;
+}
+#smc_allow li.smc_qqweibo{
+	background:url(images/qqweibo.png) no-repeat;
+}
+#smc_allow li.smc_163weibo{
+	background:url(images/163weibo.png) no-repeat;
+}
+#smc_allow li.smc_sohuweibo{
+	background:url(images/sohuweibo.png) no-repeat;
+}
+#smc_allow li.smc_douban{
+	background:url(images/douban.png) no-repeat;
+}
+#smc_allow li.smc_twitter{
+	background:url(images/twitter.png) no-repeat;
+}
+#smc_allow li.smc_follow5{
+	background:url(images/follow5.png) no-repeat;
+}
+#smc_allow li.smc_fanfou{
+	background:url(images/fanfou.png) no-repeat;
+}
+#smc_allow li.smc_zuosa{
+	background:url(images/zuosa.png) no-repeat;
+}
+#smc_allow li.smc_wbto{
+	background:url(images/wbto.png) no-repeat;
+}
+#smc_allow li.smc_tianya{
+	background:url(images/tianya.png) no-repeat;
+}
+#smc_allow li.smc_facebook{
+	background:url(images/facebook.png) no-repeat;
+}
+#smc_allow li.smc_renren{
+	background:url(images/renren.png) no-repeat;
+}
+#smc_allow li.smc_kaixin{
+	background:url(images/kaixin.png) no-repeat;
+}
+h3.info{
+	color:red;
+}
+.smc_weibo_start{
+	display:block;
+}
+#loginform .smc_weibo_start{
+	margin-bottom:5px;
+}
+#loginform #smc_connect_tips{
+	margin:0 0 5px;
+}
+.smc_btn_1{
+	width:96px;
+	height:81px;
+	background:url(images/smc_1.png) no-repeat;
+}
+.smc_btn_2{
+	width:128px;
+	height:32px;
+	background:url(images/smc_2.png) no-repeat;
+}
+.smc_btn_3{
+	width:64px;
+	height:64px;
+	background:url(images/smc_3.png) no-repeat;
+}
+.smc_btn_4{
+	width:64px;
+	height:32px;
+	background:url(images/smc_4.png) no-repeat;
+}
+.smc_theCover{
+	background:#000;
+	position:absolute;
+	left:0;
+	top:0;
+	width:100%;
+	height:100%;
+	right:0;
+	bottom:0;
+	z-index:10000
+}
+.smc_the_frame ol,
+.smc_the_frame li,
+.smc_the_frame ul,
+.smc_the_frame table,
+.smc_the_frame tbody,
+.smc_the_frame tr,
+.smc_the_frame th,
+.smc_the_frame td {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	vertical-align: baseline;
+}
+.smc_the_frame li{
+	list-style:none;
+}
+.smc_the_frame table {
+	border-collapse: collapse;
+}
+.smc_the_frame{
+	position:absolute;
+	z-index:1999999;
+	display:none;
+	top:-999em;
+	left:-999em;
+	padding:5px;
+	line-height: 160%;
+	font-size:12px;
+}
+.smc_the_frame .smc_close{
+	width:30px;
+	height:30px;
+	background-image:url(images/close.png)!important;
+	background-image:url(images/close.gif);
+	background-repeat:no-repeat;
+	background-position:center center;
+	position:absolute;
+	top:0;
+	right:0;
+	cursor:pointer;
+}
+td.smc_t_content{
+	background:#fff;
+	text-align:left;
+}
+td.smc_t_topleft,
+td.smc_t_topright,
+td.smc_t_bottomleft,
+td.smc_t_bottomright,
+td.smc_t_leftborder,
+td.smc_t_rightborder,
+td.smc_t_topborder,
+td.smc_t_bottomborder{
+	background-image:url(images/frame.png)!important;
+	background-image:url(images/frame.gif);
+	background-repeat:no-repeat;
+	overflow:hidden;
+	padding:0;
+}
+td.smc_t_topleft,
+td.smc_t_topright,
+td.smc_t_bottomleft,
+td.smc_t_bottomright{
+    height:10px;
+	width:10px;
+}
+td.smc_t_topborder,
+td.smc_t_bottomborder{
+	height:10px;
+}
+td.smc_t_leftborder,
+td.smc_t_rightborder{
+	width:10px;
+}
+td.smc_t_topleft{
+	background-position:-1px -2px;
+}
+td.smc_t_topright{
+	background-position:-29px -2px;
+}
+td.smc_t_topborder{
+	background-position:0 -42px;
+	background-repeat:repeat-x;
+}
+td.smc_t_leftborder{
+	background-position:-1px -80px;
+}
+td.smc_t_rightborder{
+	background-position:-29px -80px;
+}
+td.smc_t_bottomleft{
+	background-position:-1px -29px;
+}
+td.smc_t_bottomright{
+	background-position:-29px -29px;
+}
+td.smc_t_bottomborder{
+	background-position:0 -69px;
+	background-repeat:repeat-x;
+}
+#smc-service-list li{
+	display:inline;
+	margin-right:15px;
+	line-height:0;
+}
+#smc-service-list li img{
+	padding-bottom:4px;
+}
+#smc_sync{
+	padding-left:16px;
+}
+#smc_sync input{
+	width:13px;
+	height:13px;
+	margin:0 3px 0 4px;
+}
+.smc_img{
+	cursor:pointer;
+}
+.smc_qqweibo{
+	background:url(images/qqweibo_16.png) no-repeat 0 center;
+}
+.smc_sinaweibo{
+	background:url(images/sinaweibo_16.png) no-repeat 0 center;
+}
+.smc_163weibo{
+	background:url(images/163weibo_16.png) no-repeat 0 center;
+}
+.smc_sohuweibo{
+	background:url(images/sohuweibo_16.png) no-repeat 0 center;
+}
+.smc_douban{
+	background:url(images/douban_16.png) no-repeat 0 center;
+}
+.smc_twitter{
+	background:url(images/twitter_16.png) no-repeat 0 center;
+}
+.smc_follow5{
+	background:url(images/follow5_16.png) no-repeat 0 center;
+}
+.smc_fanfou{
+	background:url(images/fanfou_16.png) no-repeat 0 center;
+}
+.smc_zuosa{
+	background:url(images/zuosa_16.png) no-repeat 0 center;
+}
+.smc_wbto{
+	background:url(images/wbto_16.png) no-repeat 0 center;
+}
+.smc_tianya{
+	background:url(images/tianya_16.png) no-repeat 0 center;
+}
+.smc_facebook{
+	background:url(images/facebook_16.png) no-repeat 0 center;
+}
+.smc_renren{
+	background:url(images/renren_16.png) no-repeat 0 center;
+}
+.smc_kaixin{
+	background:url(images/kaixin_16.png) no-repeat 0 center;
+}
+.smc_user_login{
+	padding:2px 0 2px 18px;
+}
+.smc_noweibo{
+	padding-left:0;
+}
+/* my weibo */
+.smc-avatar{
+	float:left;
+	margin:0 8px 0 0;
+}
+.smc-author{
+	font-weight:bold;
+}
+.smc-weibo{
+	clear:both;
+}
+.smc-light-box{
+	min-height:100px;
+	min-width:200px;
+	background:url(images/ajax-loader.gif) no-repeat center center;
+	height:auto !important;
+	height:100px;
+	width:auto !important;
+	width:200px;
+	overflow:hidden !important;
+	overflow:auto;
+	position:relative;
+	line-height:0;
+}
+.smc-retweet-list{
+	padding:10px 10px 10px 30px;
+}
+.smc-weibo-image{
+	text-align:center;
+}
+.smc_appkey_btn{
+	vertical-align:top;
+}

@@ -1,0 +1,186 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wp-codebox\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-12-20 14:35+0800\n"
+"PO-Revision-Date: \n"
+"Last-Translator: ERIC WANG <eric.wzy@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: main.php:106
+#: backup/main.php:113
+#: backup/main_jquery.php:115
+msgid "[Copy to clipboard]"
+msgstr ""
+
+#: main.php:115
+#: backup/main.php:122
+#: backup/main_jquery.php:124
+msgid "Download"
+msgstr ""
+
+#: main.php:117
+#: backup/main.php:131
+#: backup/main_jquery.php:133
+msgid "View Code"
+msgstr ""
+
+#: option.php:9
+msgid "Configuration"
+msgstr ""
+
+#: option.php:10
+msgid "You are not Options Manager &amp; hence you cannot configure <strong>WP-Codebox</strong>. If you are admin, then please Logout &amp; Login again."
+msgstr ""
+
+#: option.php:13
+msgid "Access Denied"
+msgstr ""
+
+#: option.php:69
+msgid "WP-CodeBox-Configration"
+msgstr ""
+
+#: option.php:73
+msgid "You can configure <strong>WP-CODEBOX</strong> here. It's easy to configure highlighter style/formatting.<br />Since the plugin is developing, in the future it will support more options.<em>CSS option,Keyword display style,Auto Caps/Nocaps,Case Sensitivity etc</em>. <br /> By the way, please consider making a small donation. all donations, even the small ones, help to defray my costs and support continued development. <br />Besides, all donators get a link on the main <strong><a href=\"http://www.ericbess.com/ericblog/2008/03/03/wp-codebox/\">WP-codebox page</a></strong> and its daily 200 - 500 unique visitors."
+msgstr ""
+
+#: option.php:101
+msgid "DEFAULT OPTIONS"
+msgstr ""
+
+#: option.php:105
+msgid "Hide the Function Bar"
+msgstr ""
+
+#: option.php:106
+msgid "Just show the codebox only."
+msgstr ""
+
+#: option.php:110
+msgid "Collapse Codebox"
+msgstr ""
+
+#: option.php:111
+msgid "If you turn this option on, do no hide the function bar. The tag <em><strong>colla=\"+/-\"</strong></em> will switch the attribute in the single codebox."
+msgstr ""
+
+#: option.php:117
+msgid "Default show Line Number"
+msgstr ""
+
+#: option.php:118
+msgid "Line Number display default setting. The tag <em><strong>line=\"n\"</strong></em> will hide the single codebox."
+msgstr ""
+
+#: option.php:122
+msgid "Strict Mode"
+msgstr ""
+
+#: option.php:123
+msgid "Strict Mode means that if your language is a scripting language (such as PHP), then highlighting will only be done on the code between appropriate code delimiters (eg &lt;?php ,&gt;)."
+msgstr ""
+
+#: option.php:130
+msgid "GESHI_CAPS_UPPER"
+msgstr ""
+
+#: option.php:130
+#: option.php:131
+#: option.php:132
+msgid " selected"
+msgstr ""
+
+#: option.php:130
+msgid "CAPS_UPPER"
+msgstr ""
+
+#: option.php:131
+msgid "GESHI_CAPS_LOWER"
+msgstr ""
+
+#: option.php:131
+msgid "CAPS_LOWER"
+msgstr ""
+
+#: option.php:132
+msgid "GESHI_CAPS_NO_CHANGE"
+msgstr ""
+
+#: option.php:132
+msgid "CAPS_NO_CHANGE"
+msgstr ""
+
+#: option.php:133
+msgid "Auto-Caps/Nocaps"
+msgstr ""
+
+#: option.php:134
+msgid "capitalises or lowercases automatically certain lexics when they are styled."
+msgstr ""
+
+#: option.php:138
+msgid "Tab Width (in spaces)"
+msgstr ""
+
+#: option.php:139
+msgid "Tabs in your input will be turned into this many spaces (maximum of 20)."
+msgstr ""
+
+#: option.php:145
+msgid "All URLs for Keywords Activated"
+msgstr ""
+
+#: option.php:146
+msgid "System automatic keywords link to the API documentation inserting, this option you can enable all URL linking for keywords ."
+msgstr ""
+
+#: option.php:150
+msgid "Wrap Overflowing Text"
+msgstr ""
+
+#: option.php:151
+msgid "Lines will be wrapped when they reach the width of the screen."
+msgstr ""
+
+#: option.php:446
+msgid "Configuration Complete"
+msgstr ""
+
+#: option.php:448
+msgid "Highlight Preview!"
+msgstr ""
+
+#: option.php:450
+msgid "Update Options"
+msgstr ""
+
+#: option.php:452
+msgid "Reset"
+msgstr ""
+
+#: wp-codebox.php:56
+#: backup/wp-codebox.php:62
+msgid "WP-CodeBox Options"
+msgstr ""
+
+#: wp-codebox.php:56
+#: backup/wp-codebox.php:62
+msgid "WP-CodeBox"
+msgstr ""
+
+#: wp-codebox.php:85
+#: backup/wp-codebox.php:79
+msgid "Settings"
+msgstr ""
+
+#: wp-codebox.php:95
+msgid "Donate"
+msgstr ""
+

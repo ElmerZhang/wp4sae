@@ -1,0 +1,463 @@
+
+<div class="wrap" style="width:86%;">
+
+<fieldset>
+	  <legend><h2 align="center"><?php _e("wp-codebox-config"); ?></h2></legend>
+	  <?php _e("You can configure <strong>WP-CODEBOX</strong> here. Its easy to configure as there are only a few settings that you can change. These settings are pre-configured and you shouldn't require to change any, but should you want, then go ahead.<br /><br /><div style=\"color:#770000;\"><strong>CAUTION:-</strong> Leaving any colour field blank will not remove the colour, its just that your colour won't be changed. Also, if you don't save a valid Colour HexCode, then you'll be responsible if your CSS breaks.</div>"); ?>
+</fieldset>
+
+<fieldset name="igsh_set2">
+	<legend><?php _e('RESET PLUGIN'); ?></legend>
+	<form method="post" onsubmit="javascript: return confirmReset();">
+		<div class="submit" style="text-align:center;">
+			<input type="hidden" name="igsh_hidReset" value="doReset" />
+			<input type="submit" name="igsh_reset" style="font-weight:bold; width:90%;" value="&laquo;&laquo;&nbsp;&nbsp; RESET&nbsp;&nbsp;DEFAULT&nbsp;&nbsp;SETTINGS &nbsp;&nbsp;&raquo;&raquo;" title="Click to RESET the plugin settings to default" />
+		</div>
+	</form>
+</fieldset>
+
+<form method="post">
+<fieldset>
+	<legend><?php _e('BASE OPTIONS'); ?></legend>
+
+	<table width="96%" align="center" id="options">
+		<tr>
+			<td>
+			<select name="wpcb_line_numbers" id="cb_line_numbers">
+				<option value="2" <?php if(($wpcb_line_numbers==2)) { _e(" selected"); } ?>>Fancy</option>
+				<option value="1"<?php if(($wpcb_line_numbers==1)) { _e(" selected"); } ?>>Normal</option>
+				<option value="0"<?php if(($wpcb_line_numbers==0)) { _e(" selected"); } ?>>None</option>
+			</select> Line Numbers<br />
+			<span class="help">Show line numbers beside your code</span>
+			</td>
+			
+			<td>
+			<input type="checkbox" name="wpcb_word_wrap" id="cb_word_wrap" checked= <?php if(($wpcb_word_wrap==1)) { _e(" checked"); } ?> /> Wrap overflowing text<br />
+			<span class="help">If you turn this option on, lines will be wrapped when they reach the width of the screen.</span>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+			<input type="text" name="wpcb_tab_width" value= <?php echo $wpcb-tab_width; ?> size="4" /> Tab width (in spaces)<br />
+			<span class="help">Tabs in your input will be turned into this many spaces (maximum of 20)</span>
+			</td>
+			
+			<td>
+			<input type="checkbox" name="wpcb_plaintxt" checked= <?php if(($wpcb_plaintxt==1)) { _e(" checked"); } ?> /> Show Plain Text Code<br />
+			<span class="help">Enabling this option will show the "PLAIN TEXT" link with your code boxes to allow users to get your code as un-hilited Plain Text. </span>
+			</td>
+		</tr>
+		
+		<tr>
+		  	<td>
+			<input type="checkbox" name="wpcb_parseComments" checked=<?php if(($wpcb_plaintxt==1)) { _e(" checked"); }?> /> Hilite Code in Comments<br />
+			<span class="help">Enabling this option will hilite the code posted in your comments. </span>
+			</td>
+			
+			<td>
+			<select name="wpcb_plain_text_type" id="cb_plain_text_type">
+				<option value="pop"<?php if(($igsh_plainTxtType=="pop")) { _e(" selected"); } ?>>New Window</option>
+				<option value="inbox"<?php if(($igsh_plainTxtType=="inbox")) { _e(" selected"); } ?>>In CodeBox</option>
+			</select>Show Plain Text Code In<br />
+			 <span class="help">Select where you want the PLAIN TEXT code to appear, in a new pop-up window or have it 
+					appear in the codebox itself with the option to show hilited code back again. This is useful only if you have 
+					enabled the PLAIN TEXT option above.</span>
+			</td>
+		</tr>
+	</table>
+</fieldset>
+
+<fieldset>
+<legend>Output Styles</legend>
+<table class="tehTable" width="96%" align="center" cellspacing="1">
+	<tr>
+		<th>Aspect</th>
+		<th>Colour</th>
+		<th>Bold</th>
+		<th>Italic</th>
+		<th>Case Sensitive</th>
+	</tr>
+	<tr>
+		<td>Default Colour<br /><span class="help" style="color: #0000bb;">All the text not to be highlighted</span></td>
+		<td class="inputTD"><select name="default_color">
+			<option value="000000" class="black">Black</option>
+			<option value="000066" class="darkblue">Dark Blue</option>
+			<option value="660000" class="darkred">Dark Red</option>
+			<option value="006600" class="darkgreen">Dark Green</option>
+			<option value="666600" class="darkyellow">Dark Yellow</option>
+			<option value="808080" class="darkgrey">Dark Grey</option>
+			<option value="0000bb" class="blue" selected="selected">Blue</option>
+			<option value="bb0000" class="red">Red</option>
+			<option value="00bb00" class="green">Green</option>
+			<option value="bbbb00" class="yellow">Yellow</option>
+			<option value="bbbbbb" class="grey">Grey</option>
+			<option value="0000ff" class="lightblue">Light Blue</option>
+			<option value="ff0000" class="lightred">Light Red</option>
+			<option value="00ff00" class="lightgreen">Light Green</option>
+			<option value="ffff00" class="lightyellow">Light Yellow</option>
+			<option value="bbbbbb" class="lightgrey">Light Grey</option>
+		</select></td>
+		<td class="inputTD"><input type="checkbox" name="default_bold" /></td>
+		<td class="inputTD"><input type="checkbox" name="default_italic" /></td>
+		<td class="inputTD"><input type="checkbox" name="default_case_sensitive" disabled="disabled" /></td>
+	</tr>
+	<tr>
+		<td>Keywords<br /><span class="help" style="color: #bbbb00;">if, while, do etc</span></td>
+		<td class="inputTD"><select name="keyword_colors[1]">
+			<option value="DEFAULT" selected="selected">Language Default</option>
+			<option value="000000" class="black">Black</option>
+			<option value="000066" class="darkblue">Dark Blue</option>
+			<option value="660000" class="darkred">Dark Red</option>
+			<option value="006600" class="darkgreen">Dark Green</option>
+			<option value="666600" class="darkyellow">Dark Yellow</option>
+			<option value="808080" class="darkgrey">Dark Grey</option>
+			<option value="0000bb" class="blue">Blue</option>
+			<option value="bb0000" class="red">Red</option>
+			<option value="00bb00" class="green">Green</option>
+			<option value="bbbb00" class="yellow">Yellow</option>
+			<option value="bbbbbb" class="grey">Grey</option>
+			<option value="0000ff" class="lightblue">Light Blue</option>
+			<option value="ff0000" class="lightred">Light Red</option>
+			<option value="00ff00" class="lightgreen">Light Green</option>
+			<option value="ffff00" class="lightyellow">Light Yellow</option>
+			<option value="bbbbbb" class="lightgrey">Light Grey</option>
+		</select></td>
+		<td class="inputTD"><input type="checkbox" name="keyword_bold[1]" /></td>
+		<td class="inputTD"><input type="checkbox" name="keyword_italic[1]" /></td>
+		<td class="inputTD"><input type="checkbox" name="keyword_case_sensitive[1]" /></td>
+	</tr>
+	<tr>
+		<td>Keywords II<br /><span class="help"><span style="color: #000000; font-weight: bold;">null, void, true, false</span> etc</span></td>
+		<td class="inputTD"><select name="keyword_colors[2]">
+			<option value="DEFAULT" selected="selected">Language Default</option>
+			<option value="000000" class="black">Black</option>
+			<option value="000066" class="darkblue">Dark Blue</option>
+			<option value="660000" class="darkred">Dark Red</option>
+			<option value="006600" class="darkgreen">Dark Green</option>
+			<option value="666600" class="darkyellow">Dark Yellow</option>
+			<option value="808080" class="darkgrey">Dark Grey</option>
+			<option value="0000bb" class="blue">Blue</option>
+			<option value="bb0000" class="red">Red</option>
+			<option value="00bb00" class="green">Green</option>
+			<option value="bbbb00" class="yellow">Yellow</option>
+			<option value="bbbbbb" class="grey">Grey</option>
+			<option value="0000ff" class="lightblue">Light Blue</option>
+			<option value="ff0000" class="lightred">Light Red</option>
+			<option value="00ff00" class="lightgreen">Light Green</option>
+			<option value="ffff00" class="lightyellow">Light Yellow</option>
+			<option value="bbbbbb" class="lightgrey">Light Grey</option>
+		</select></td>
+		<td class="inputTD"><input type="checkbox" name="keyword_bold[2]" /></td>
+		<td class="inputTD"><input type="checkbox" name="keyword_italic[2]" /></td>
+		<td class="inputTD"><input type="checkbox" name="keyword_case_sensitive[2]" /></td>
+	</tr>
+	<tr>
+		<td>Inbuilt Functions/Classes<br /><span class="help">Functions/classes predefined by your language: <span style="color: #000066;">System, rand()</span> etc</span></td>
+		<td class="inputTD"><select name="keyword_colors[3]">
+			<option value="DEFAULT" selected="selected">Language Default</option>
+			<option value="000000" class="black">Black</option>
+			<option value="000066" class="darkblue">Dark Blue</option>
+			<option value="660000" class="darkred">Dark Red</option>
+			<option value="006600" class="darkgreen">Dark Green</option>
+			<option value="666600" class="darkyellow">Dark Yellow</option>
+			<option value="808080" class="darkgrey">Dark Grey</option>
+			<option value="0000bb" class="blue">Blue</option>
+			<option value="bb0000" class="red">Red</option>
+			<option value="00bb00" class="green">Green</option>
+			<option value="bbbb00" class="yellow">Yellow</option>
+			<option value="bbbbbb" class="grey">Grey</option>
+			<option value="0000ff" class="lightblue">Light Blue</option>
+			<option value="ff0000" class="lightred">Light Red</option>
+			<option value="00ff00" class="lightgreen">Light Green</option>
+			<option value="ffff00" class="lightyellow">Light Yellow</option>
+			<option value="bbbbbb" class="lightgrey">Light Grey</option>
+		</select></td>
+		<td class="inputTD"><input type="checkbox" name="keyword_bold[3]" /></td>
+		<td class="inputTD"><input type="checkbox" name="keyword_italic[3]" /></td>
+		<td class="inputTD"><input type="checkbox" name="keyword_case_sensitive[3]" /></td>
+	</tr>
+	<tr>
+		<td>Data Types<br /><span class="help">Keywords that signal a data type: <span style="color: #660000;">int, double, boolean</span> etc</span></td>
+		<td class="inputTD"><select name="keyword_colors[4]">
+			<option value="DEFAULT" selected="selected">Language Default</option>
+			<option value="000000" class="black">Black</option>
+			<option value="000066" class="darkblue">Dark Blue</option>
+			<option value="660000" class="darkred">Dark Red</option>
+			<option value="006600" class="darkgreen">Dark Green</option>
+			<option value="666600" class="darkyellow">Dark Yellow</option>
+			<option value="808080" class="darkgrey">Dark Grey</option>
+			<option value="0000bb" class="blue">Blue</option>
+			<option value="bb0000" class="red">Red</option>
+			<option value="00bb00" class="green">Green</option>
+			<option value="bbbb00" class="yellow">Yellow</option>
+			<option value="bbbbbb" class="grey">Grey</option>
+			<option value="0000ff" class="lightblue">Light Blue</option>
+			<option value="ff0000" class="lightred">Light Red</option>
+			<option value="00ff00" class="lightgreen">Light Green</option>
+			<option value="ffff00" class="lightyellow">Light Yellow</option>
+			<option value="bbbbbb" class="lightgrey">Light Grey</option>
+		</select></td>
+		<td class="inputTD"><input type="checkbox" name="keyword_bold[4]" /></td>
+		<td class="inputTD"><input type="checkbox" name="keyword_italic[4]" /></td>
+		<td class="inputTD"><input type="checkbox" name="keyword_case_sensitive[4]" /></td>
+	</tr>
+	<tr>
+		<td>Comments<br /><span class="help" style="color: #808080; font-style: italic;">Comments in your language</span></td>
+		<td class="inputTD"><select name="comments_color">
+			<option value="DEFAULT" selected="selected">Language Default</option>
+			<option value="000000" class="black">Black</option>
+			<option value="000066" class="darkblue">Dark Blue</option>
+			<option value="660000" class="darkred">Dark Red</option>
+			<option value="006600" class="darkgreen">Dark Green</option>
+			<option value="666600" class="darkyellow">Dark Yellow</option>
+			<option value="808080" class="darkgrey">Dark Grey</option>
+			<option value="0000bb" class="blue">Blue</option>
+			<option value="bb0000" class="red">Red</option>
+			<option value="00bb00" class="green">Green</option>
+			<option value="bbbb00" class="yellow">Yellow</option>
+			<option value="bbbbbb" class="grey">Grey</option>
+			<option value="0000ff" class="lightblue">Light Blue</option>
+			<option value="ff0000" class="lightred">Light Red</option>
+			<option value="00ff00" class="lightgreen">Light Green</option>
+			<option value="ffff00" class="lightyellow">Light Yellow</option>
+			<option value="bbbbbb" class="lightgrey">Light Grey</option>
+		</select></td>
+		<td class="inputTD"><input type="checkbox" name="comments_bold" /></td>
+		<td class="inputTD"><input type="checkbox" name="comments_italic" /></td>
+		<td class="inputTD"><input type="checkbox" name="comments_case_sensitive" /><a href="#n4" class="note">4</a></td>
+	</tr>
+	<tr>
+		<td>Escaped Characters<br /><span class="help">Escaped characters in your language: <span style="color: #000066; font-weight: bold;">\n, \t, \\</span> etc</span></td>
+		<td class="inputTD"><select name="escaped_chars_color">
+			<option value="DEFAULT" selected="selected">Language Default</option>
+			<option value="000000" class="black">Black</option>
+			<option value="000066" class="darkblue">Dark Blue</option>
+			<option value="660000" class="darkred">Dark Red</option>
+			<option value="006600" class="darkgreen">Dark Green</option>
+			<option value="666600" class="darkyellow">Dark Yellow</option>
+			<option value="808080" class="darkgrey">Dark Grey</option>
+			<option value="0000bb" class="blue">Blue</option>
+			<option value="bb0000" class="red">Red</option>
+			<option value="00bb00" class="green">Green</option>
+			<option value="bbbb00" class="yellow">Yellow</option>
+			<option value="bbbbbb" class="grey">Grey</option>
+			<option value="0000ff" class="lightblue">Light Blue</option>
+			<option value="ff0000" class="lightred">Light Red</option>
+			<option value="00ff00" class="lightgreen">Light Green</option>
+			<option value="ffff00" class="lightyellow">Light Yellow</option>
+			<option value="bbbbbb" class="lightgrey">Light Grey</option>
+		</select></td>
+		<td class="inputTD"><input type="checkbox" name="escaped_chars_bold" /></td>
+		<td class="inputTD"><input type="checkbox" name="escaped_chars_italic" /></td>
+		<td class="inputTD"><input type="checkbox" name="escaped_chars_case_sensitive" disabled="disabled" /></td>
+	</tr>
+	<tr>
+		<td>Brackets<br /><span class="help">Brackets: <span style="color: #00bb00;">(, ), [, ], {, }</span></span></td>
+		<td class="inputTD"><select name="brackets_color">
+			<option value="DEFAULT" selected="selected">Language Default</option>
+			<option value="000000" class="black">Black</option>
+			<option value="000066" class="darkblue">Dark Blue</option>
+			<option value="660000" class="darkred">Dark Red</option>
+			<option value="006600" class="darkgreen">Dark Green</option>
+			<option value="666600" class="darkyellow">Dark Yellow</option>
+			<option value="808080" class="darkgrey">Dark Grey</option>
+			<option value="0000bb" class="blue">Blue</option>
+			<option value="bb0000" class="red">Red</option>
+			<option value="00bb00" class="green">Green</option>
+			<option value="bbbb00" class="yellow">Yellow</option>
+			<option value="bbbbbb" class="grey">Grey</option>
+			<option value="0000ff" class="lightblue">Light Blue</option>
+			<option value="ff0000" class="lightred">Light Red</option>
+			<option value="00ff00" class="lightgreen">Light Green</option>
+			<option value="ffff00" class="lightyellow">Light Yellow</option>
+			<option value="bbbbbb" class="lightgrey">Light Grey</option>
+		</select></td>
+		<td class="inputTD"><input type="checkbox" name="brackets_bold" /></td>
+		<td class="inputTD"><input type="checkbox" name="brackets_italic" /></td>
+		<td class="inputTD"><input type="checkbox" name="brackets_case_sensitive" disabled="disabled" /></td>
+	</tr>
+	<tr>
+		<td>Strings<br /><span class="help">Strings: <span style="color: #ff0000;">"hello!", 'hello, world!'</span></span></td>
+		<td class="inputTD"><select name="strings_color">
+			<option value="DEFAULT" selected="selected">Language Default</option>
+			<option value="000000" class="black">Black</option>
+			<option value="000066" class="darkblue">Dark Blue</option>
+			<option value="660000" class="darkred">Dark Red</option>
+			<option value="006600" class="darkgreen">Dark Green</option>
+			<option value="666600" class="darkyellow">Dark Yellow</option>
+			<option value="808080" class="darkgrey">Dark Grey</option>
+			<option value="0000bb" class="blue">Blue</option>
+			<option value="bb0000" class="red">Red</option>
+			<option value="00bb00" class="green">Green</option>
+			<option value="bbbb00" class="yellow">Yellow</option>
+			<option value="bbbbbb" class="grey">Grey</option>
+			<option value="0000ff" class="lightblue">Light Blue</option>
+			<option value="ff0000" class="lightred">Light Red</option>
+			<option value="00ff00" class="lightgreen">Light Green</option>
+			<option value="ffff00" class="lightyellow">Light Yellow</option>
+			<option value="bbbbbb" class="lightgrey">Light Grey</option>
+		</select></td>
+		<td class="inputTD"><input type="checkbox" name="strings_bold" /></td>
+		<td class="inputTD"><input type="checkbox" name="strings_italic" /></td>
+		<td class="inputTD"><input type="checkbox" name="strings_case_sensitive" disabled="disabled" /></td>
+	</tr>
+	<tr>
+		<td>Numbers<br /><span class="help">Literal numbers, including decimal numbers and powers (<span style="color: #bb00bb;">1, -1.2e6</span>)</span></td>
+		<td class="inputTD"><select name="numbers_color">
+			<option value="DEFAULT" selected="selected">Language Default</option>
+			<option value="000000" class="black">Black</option>
+			<option value="000066" class="darkblue">Dark Blue</option>
+			<option value="660000" class="darkred">Dark Red</option>
+			<option value="006600" class="darkgreen">Dark Green</option>
+			<option value="666600" class="darkyellow">Dark Yellow</option>
+			<option value="808080" class="darkgrey">Dark Grey</option>
+			<option value="0000bb" class="blue">Blue</option>
+			<option value="bb0000" class="red">Red</option>
+			<option value="00bb00" class="green">Green</option>
+			<option value="bbbb00" class="yellow">Yellow</option>
+			<option value="bbbbbb" class="grey">Grey</option>
+			<option value="0000ff" class="lightblue">Light Blue</option>
+			<option value="ff0000" class="lightred">Light Red</option>
+			<option value="00ff00" class="lightgreen">Light Green</option>
+			<option value="ffff00" class="lightyellow">Light Yellow</option>
+			<option value="bbbbbb" class="lightgrey">Light Grey</option>
+		</select></td>
+		<td class="inputTD"><input type="checkbox" name="numbers_bold" /></td>
+		<td class="inputTD"><input type="checkbox" name="numbers_italic" /></td>
+		<td class="inputTD"><input type="checkbox" name="numbers_case_sensitive" disabled="disabled" /></td>
+	</tr>
+	<tr>
+		<td>Methods and Data Fields<br /><span class="help" style="color: #006600;">Methods and data fields for class languages</span></td>
+		<td class="inputTD"><select name="methods_color">
+			<option value="DEFAULT" selected="selected">Language Default</option>
+			<option value="000000" class="black">Black</option>
+			<option value="000066" class="darkblue">Dark Blue</option>
+			<option value="660000" class="darkred">Dark Red</option>
+			<option value="006600" class="darkgreen">Dark Green</option>
+			<option value="666600" class="darkyellow">Dark Yellow</option>
+			<option value="808080" class="darkgrey">Dark Grey</option>
+			<option value="0000bb" class="blue">Blue</option>
+			<option value="bb0000" class="red">Red</option>
+			<option value="00bb00" class="green">Green</option>
+			<option value="bbbb00" class="yellow">Yellow</option>
+			<option value="bbbbbb" class="grey">Grey</option>
+			<option value="0000ff" class="lightblue">Light Blue</option>
+			<option value="ff0000" class="lightred">Light Red</option>
+			<option value="00ff00" class="lightgreen">Light Green</option>
+			<option value="ffff00" class="lightyellow">Light Yellow</option>
+			<option value="bbbbbb" class="lightgrey">Light Grey</option>
+		</select></td>
+		<td class="inputTD"><input type="checkbox" name="methods_bold" /></td>
+		<td class="inputTD"><input type="checkbox" name="methods_italic" /></td>
+		<td class="inputTD"><input type="checkbox" name="methods_case_sensitive" disabled="disabled" /></td>
+	</tr>
+</table>
+</fieldset>
+<fieldset>
+<legend>Source Code</legend>
+Input via a text field:<br />
+<textarea name="source" rows="10" cols="110"></textarea>
+</fieldset>
+<fieldset>
+<legend>Choose a language</legend>
+<select name="language">
+	<option value="abap">ABAP</option>
+	<option value="actionscript">ActionScript</option>
+	<option value="actionscript-french" class="sublang">&nbsp;&nbsp;ActionScript (French Doc Links)</option>
+	<option value="ada">Ada</option>
+	<option value="apache">Apache Log File</option>
+	<option value="applescript">AppleScript</option>
+	<option value="asm">ASM (NASM based)</option>
+	<option value="asp">ASP</option>
+	<option value="autoit">AutoIT</option>
+	<option value="bash">Bash</option>
+	<option value="blitzbasic">BlitzBasic</option>
+	<option value="bnf">Backus-Naur form</option>
+	<option value="c">C</option>
+	<option value="c_mac">C for Macs</option>
+	<option value="caddcl">CAD DCL</option>
+	<option value="cadlisp">CAD Lisp</option>
+	<option value="cfdg">CFDG</option>
+	<option value="cfm">ColdFusion</option>
+	<option value="cpp">C++</option>
+	<option value="cpp-qt" class="sublang">&nbsp;&nbsp;C++/QT</option>
+	<option value="csharp">C#</option>
+	<option value="css">CSS</option>
+	<option value="d">D</option>
+	<option value="delphi">Delphi</option>
+	<option value="diff">Diff</option>
+	<option value="div">DIV</option>
+	<option value="dos">DOS</option>
+	<option value="dot">GraphViz</option>
+	<option value="eiffel">Eiffel</option>
+	<option value="fortran">Fortran</option>
+	<option value="freebasic">FreeBasic</option>
+	<option value="genero">Genero (4GL)</option>
+	<option value="gml">GML</option>
+	<option value="groovy">Groovy</option>
+	<option value="haskell">Haskell</option>
+	<option value="html4strict">HTML (4.0.1)</option>
+	<option value="idl">Uno IDL</option>
+	<option value="inno">Inno</option>
+	<option value="io">IO</option>
+	<option value="java">Java</option>
+	<option value="java5" class="sublang">&nbsp;&nbsp;Java 5</option>
+	<option value="javascript">Javascript</option>
+	<option value="latex">LaTeX</option>
+	<option value="lisp">Lisp</option>
+	<option value="lua">Lua</option>
+	<option value="matlab">Matlab</option>
+	<option value="mirc">mIRC</option>
+	<option value="mpasm">MPASM</option>
+	<option value="mysql">MySQL</option>
+	<option value="nsis">NullSoft Installer</option>
+	<option value="objc">Objective C</option>
+	<option value="ocaml">OCaml</option>
+	<option value="ocaml-brief" class="sublang">&nbsp;&nbsp;OCaml (Brief)</option>
+	<option value="oobas">Openoffice.org BASIC</option>
+	<option value="oracle8">Oracle 8</option>
+	<option value="pascal">Pascal</option>
+	<option value="per">Per (4GL)</option>
+	<option value="perl">Perl</option>
+	<option value="php">PHP</option>
+	<option value="php-brief" class="sublang">&nbsp;&nbsp;PHP (Brief version)</option>
+	<option value="plsql">PL/SQL</option>
+	<option value="python">Python</option>
+	<option value="qbasic">QBasic/QuickBASIC</option>
+	<option value="rails">Rails</option>
+	<option value="reg">Windows Registry</option>
+	<option value="robots">robots.txt</option>
+	<option value="ruby">Ruby</option>
+	<option value="sas">SAS</option>
+	<option value="scheme">Scheme</option>
+	<option value="sdlbasic">SDLBasic</option>
+	<option value="smalltalk">Smalltalk</option>
+	<option value="smarty">Smarty</option>
+	<option value="sql">SQL</option>
+	<option value="tcl">TCL</option>
+	<option value="text">Plain text</option>
+	<option value="thinbasic">thinBasic</option>
+	<option value="tsql">T-SQL</option>
+	<option value="vb">VisualBasic</option>
+	<option value="vbnet">VB.NET</option>
+	<option value="vhdl">VHDL</option>
+	<option value="visualfoxpro">VisualFoxPro</option>
+	<option value="winbatch">Winbatch</option>
+	<option value="xml">XML</option>
+	<option value="xpp">X++</option>
+	<option value="z80">Z80 Assembler</option>
+</select>
+</fieldset>
+<fieldset class="submit">
+<legend>Configuration Complete</legend>
+<div align="center">
+  <input type="submit" value="Highlight Preview!" />
+  &nbsp;
+    <input type="submit" value="Set Option" />
+  &nbsp;
+    <input name="reset" type="reset" value="Reset" />
+</div>
+</fieldset>
+</form>
+</div>

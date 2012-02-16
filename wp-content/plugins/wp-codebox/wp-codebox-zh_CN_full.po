@@ -1,0 +1,187 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wp-codebox\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-12-20 14:37+0800\n"
+"PO-Revision-Date: \n"
+"Last-Translator: ERIC WANG <eric.wzy@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: main.php:106
+#: backup/main.php:113
+#: backup/main_jquery.php:115
+msgid "[Copy to clipboard]"
+msgstr "[复制到剪贴板]"
+
+#: main.php:115
+#: backup/main.php:122
+#: backup/main_jquery.php:124
+msgid "Download"
+msgstr "下载"
+
+#: main.php:117
+#: backup/main.php:131
+#: backup/main_jquery.php:133
+msgid "View Code"
+msgstr "查看代码"
+
+#: option.php:9
+msgid "Configuration"
+msgstr "配制"
+
+#: option.php:10
+msgid "You are not Options Manager &amp; hence you cannot configure <strong>WP-Codebox</strong>. If you are admin, then please Logout &amp; Login again."
+msgstr "您不是管理员;所以你不能设置<strong>WP-CodeBox</strong>.如果你有疑问, 请登出 &amp;再登入."
+
+#: option.php:13
+msgid "Access Denied"
+msgstr "访问被拒绝"
+
+#: option.php:69
+msgid "WP-CodeBox-Configration"
+msgstr "WP-CodeBox-配制"
+
+#: option.php:73
+#, fuzzy
+msgid "You can configure <strong>WP-CODEBOX</strong> here. It's easy to configure highlighter style/formatting.<br />Since the plugin is developing, in the future it will support more options.<em>CSS option,Keyword display style,Auto Caps/Nocaps,Case Sensitivity etc</em>. <br /> By the way, please consider making a small donation. all donations, even the small ones, help to defray my costs and support continued development. <br />Besides, all donators get a link on the main <strong><a href=\"http://www.ericbess.com/ericblog/2008/03/03/wp-codebox/\">WP-codebox page</a></strong> and its daily 200 - 500 unique visitors."
+msgstr "你可以在这里配制<strong>WP-CODEBOX</strong> ,这里可以设置代码高亮式样与格式。由于正在开发中,将来会支持更多选项。<em>包括定制代码CSS,关键字式样,自动大小写及大小敏感等</em> 。请考虑对本工具的开发进行小额赞助，您的捐赠行为将极大的鼓舞插件开发者进行持续的开源开发。 同时,所有捐赠者都可以在本插件主页<strong><a href=\"http://www.ericbess.com/ericblog/2008/03/03/wp-codebox/\">WP-codebox Page</a></strong>留下捐赠者信息，此页有200~500日独立IP访问量。"
+
+#: option.php:101
+msgid "DEFAULT OPTIONS"
+msgstr "默认选项"
+
+#: option.php:105
+msgid "Hide the Function Bar"
+msgstr "隐藏功能栏"
+
+#: option.php:106
+msgid "Just show the codebox only."
+msgstr "只显示代码框。"
+
+#: option.php:110
+msgid "Collapse Codebox"
+msgstr "折叠代码框"
+
+#: option.php:111
+msgid "If you turn this option on, do no hide the function bar. The tag <em><strong>colla=\"+/-\"</strong></em> will switch the attribute in the single codebox."
+msgstr "如果你选择这项,就不要隐藏功能栏。 标记<em><strong>colla=\"+/-\"</strong></em>可以开关具体的代码框的折叠。"
+
+#: option.php:117
+msgid "Default show Line Number"
+msgstr "默认显示行号"
+
+#: option.php:118
+msgid "Line Number display default setting. The tag <em><strong>line=\"n\"</strong></em> will hide the single codebox."
+msgstr ". 标记<em><strong>line=\"n\"</strong></em> 可以隐藏具体的代码框。"
+
+#: option.php:122
+msgid "Strict Mode"
+msgstr "严格模式"
+
+#: option.php:123
+msgid "Strict Mode means that if your language is a scripting language (such as PHP), then highlighting will only be done on the code between appropriate code delimiters (eg &lt;?php ,&gt;)."
+msgstr "如果你用的是脚本语言 (如PHP), 只有碰到对应的定界符才进行代码高亮 (eg &lt;?php ,&gt;)。"
+
+#: option.php:130
+msgid "GESHI_CAPS_UPPER"
+msgstr "GESHI_CAPS_UPPER"
+
+#: option.php:130
+#: option.php:131
+#: option.php:132
+msgid " selected"
+msgstr " selected"
+
+#: option.php:130
+msgid "CAPS_UPPER"
+msgstr "CAPS_UPPER"
+
+#: option.php:131
+msgid "GESHI_CAPS_LOWER"
+msgstr "GESHI_CAPS_LOWER"
+
+#: option.php:131
+msgid "CAPS_LOWER"
+msgstr "CAPS_LOWER"
+
+#: option.php:132
+msgid "GESHI_CAPS_NO_CHANGE"
+msgstr "GESHI_CAPS_NO_CHANGE"
+
+#: option.php:132
+msgid "CAPS_NO_CHANGE"
+msgstr "CAPS_NO_CHANGE"
+
+#: option.php:133
+msgid "Auto-Caps/Nocaps"
+msgstr "自动大小写"
+
+#: option.php:134
+msgid "capitalises or lowercases automatically certain lexics when they are styled."
+msgstr "对特定词汇自动大小写。"
+
+#: option.php:138
+msgid "Tab Width (in spaces)"
+msgstr "转换TAB宽度"
+
+#: option.php:139
+msgid "Tabs in your input will be turned into this many spaces (maximum of 20)."
+msgstr "录入的TABS转换成多少个空格。"
+
+#: option.php:145
+msgid "All URLs for Keywords Activated"
+msgstr "激活关键字URL说明"
+
+#: option.php:146
+msgid "System automatic keywords link to the API documentation inserting, this option you can enable all URL linking for keywords ."
+msgstr "系统自动加上关键字API说明文档连接。"
+
+#: option.php:150
+msgid "Wrap Overflowing Text"
+msgstr "溢出换行"
+
+#: option.php:151
+msgid "Lines will be wrapped when they reach the width of the screen."
+msgstr "代码行溢出屏幕自动换行。"
+
+#: option.php:446
+msgid "Configuration Complete"
+msgstr "完成配制"
+
+#: option.php:448
+msgid "Highlight Preview!"
+msgstr "Highlight Preview!"
+
+#: option.php:450
+msgid "Update Options"
+msgstr "更新配制"
+
+#: option.php:452
+msgid "Reset"
+msgstr "重设"
+
+#: wp-codebox.php:56
+#: backup/wp-codebox.php:62
+msgid "WP-CodeBox Options"
+msgstr "代码高亮选项"
+
+#: wp-codebox.php:56
+#: backup/wp-codebox.php:62
+msgid "WP-CodeBox"
+msgstr "代码高亮"
+
+#: wp-codebox.php:85
+#: backup/wp-codebox.php:79
+msgid "Settings"
+msgstr "设置"
+
+#: wp-codebox.php:95
+msgid "Donate"
+msgstr "捐赠"
+
