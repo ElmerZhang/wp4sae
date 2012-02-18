@@ -36,59 +36,54 @@ https://github.com/ElmerZhang/wp4sae.git
 如果您曾自己制作或者修改主题，可能您需要做一些修改以使模板在跨版本更新后正常工作。
 
 ##从其他内容管理系统“搬家”
-WordPress 支持<a href="http://codex.wordpress.org/Importing_Content">导入多种系统的数据</a>。请先按照上述步骤安装 WordPress。安装后，您可在后台使用<a href="wp-admin/import.php" title="Import to WordPress">我们提供的导入工具</a>。
+WordPress 支持[导入多种系统的数据](http://codex.wordpress.org/Importing_Content)。请先按照上述步骤安装 WordPress。安装后，您可在后台使用[我们提供的导入工具](wp-admin/import.php)。
 
 ##最低系统需求
-<ul>
-	* <a href="http://php.net/">PHP</a> <strong>5.2.4</strong> 或更高版本。
-	* <a href="http://www.mysql.com/">MySQL</a> <strong>5.0</strong> 或更高版本。
-</ul>
+
+	* [PHP](http://php.net/) <strong>5.2.4</strong> 或更高版本。
+	* [MySQL](http://www.mysql.com/) <strong>5.0</strong> 或更高版本。
+
 
 ## 系统推荐
-<ul>
-	* 启用 <a href="http://httpd.apache.org/docs/2.2/mod/mod_rewrite.html">mod_rewrite</a> 这一 Apache 模块。
-	* 在您的站点设置至 <a href="http://cn.wordpress.org/">http://cn.wordpress.org</a> 的链接。
-</ul>
+
+	* 启用 [mod_rewrite](http://httpd.apache.org/docs/2.2/mod/mod_rewrite.html) 这一 Apache 模块。
+	* 在您的站点设置至 [http://cn.wordpress.org](http://cn.wordpress.org/) 的链接。
+
 
 ##在线资源
 若您遇上文档中未有提及的情况，请首先参考我们为您准备的丰富 WordPress 在线资源：
-<dl>
-	<dt><a href="http://codex.wordpress.org/">WordPress Codex 文档</a></dt>
-		<dd>Codex 是 WordPress 的百科全书。它包含现有版本 WordPress 的海量信息资源。主要文章均包含中文译文。</dd>
-	<dt><a href="http://wordpress.org/news/">WordPress 官方博客</a></dt>
-		<dd>在这里，您将接触到 WordPress 的最新升级信息和相关新闻，建议加入收藏夹。</dd>
-	<dt><a href="http://planet.wordpress.org/">WordPress Planet </a></dt>
-		<dd>WordPress Planet 汇集了全球所有 WordPress 相关的内容。</dd>
-	<dt><a href="http://zh-cn.forums.wordpress.org/forum/issues">WordPress 中文支持论坛</a></dt>
-		<dd>如果感到束手无策，请将问题提交至中文支持论坛，它有大量的热心的用户和良好的社区氛围。无论求助还是助人，在这里您应该确保自己的问题和答案均准确细致。</dd>
-	<dt><a href="http://codex.wordpress.org/IRC">WordPress IRC 频道</a></dt>
-		<dd>同样，WordPress 也有即时的聊天室用于 WordPress 用户交流以及部分技术支持。IRC 的详细使用方法可以访问前面几个关于技术支持的站点。（<a href="irc://irc.freenode.net/wordpress">irc.freenode.net #wordpress</a>）</dd>
-</dl>
+	* [WordPress Codex 文档](http://codex.wordpress.org/)
+		** Codex 是 WordPress 的百科全书。它包含现有版本 WordPress 的海量信息资源。主要文章均包含中文译文。
+	* [WordPress 官方博客](http://wordpress.org/news/)
+		** 在这里，您将接触到 WordPress 的最新升级信息和相关新闻，建议加入收藏夹。
+	* [WordPress Planet ](http://planet.wordpress.org/)
+		** WordPress Planet 汇集了全球所有 WordPress 相关的内容。
+	* [WordPress 中文支持论坛](http://zh-cn.forums.wordpress.org/forum/issues)
+		** 如果感到束手无策，请将问题提交至中文支持论坛，它有大量的热心的用户和良好的社区氛围。无论求助还是助人，在这里您应该确保自己的问题和答案均准确细致。
+	* [WordPress IRC 频道](http://codex.wordpress.org/IRC)
+		** 同样，WordPress 也有即时的聊天室用于 WordPress 用户交流以及部分技术支持。IRC 的详细使用方法可以访问前面几个关于技术支持的站点。（[irc.freenode.net #wordpress](irc://irc.freenode.net/wordpress)）
 
-##<abbr title="eXtensible Markup Language">XML</abbr>-<abbr title="Remote Procedure Call">RPC</abbr> 和 Atom 接口
-您可以使用诸如 <a href="http://windowslivewriter.spaces.live.com/">Windows Live Writer</a>、<a href="http://ecto.kung-foo.tv/">Ecto</a>、<a href="http://bloggar.com/">Bloggar</a>、<a href="http://radio.userland.com">Radio Userland</a>（基于 Radio 的 email-to-blog 功能）、<a href="http://www.newzcrawler.com/">NewzCrawler</a> 等支持 blogging API 的工具更新博客。详情请参阅 Codex 上关于 <a href="http://codex.wordpress.org/XML-RPC_Support">XML-RPC 支持</a>（英文）的内容。
+## XML-RPC 和 Atom 接口
+您可以使用诸如 [XML-RPC 支持](http://codex.wordpress.org/XML-RPC_Support)（英文）的内容。
 
 ##用电子邮件发布文章
-您可以通过电子邮件发表站点更新！请前往后台的“写作”设置页面，输入相关信息和 <abbr title="Post Office Protocol 第三版本">POP3</abbr> 帐号信息。然后您需设法让 wp-mail.php</code> 定期运行。您可以使用<a href="http://en.wikipedia.org/wiki/Cron">计划任务（Cron job）</a>来实现，或是让某个站点检测服务定期访问您的 <code>wp-mail.php 的 <abbr title="Uniform Resource Locator">URL</abbr>。
-更新很简单：使用任何邮箱发送内容到指定地址均会被 WordPress 自动发表，并以邮件主题作为文章标题，所以该"指定地址"也最好保密并专用。发表后程序将自动<em>删除</em>邮件。
+您可以通过电子邮件发表站点更新！请前往后台的“写作”设置页面，输入相关信息和 [计划任务（Cron job）](http://en.wikipedia.org/wiki/Cron)来实现，或是让某个站点检测服务定期访问您的 wp-mail.php 的 URL。
+更新很简单：使用任何邮箱发送内容到指定地址均会被 WordPress 自动发表，并以邮件主题作为文章标题，所以该"指定地址"也最好保密并专用。发表后程序将自动删除邮件。
 
 ##用户角色
-WordPress 2.0 之后的版本加入了更为灵活的用户身份系统，同时移除了之前的用户等级制度。 <a href="http://codex.wordpress.org/Roles_and_Capabilities">到 Codex 阅读关于身份和权限的更多内容</a>（英文）。
+WordPress 2.0 之后的版本加入了更为灵活的用户身份系统，同时移除了之前的用户等级制度。 [到 Codex 阅读关于身份和权限的更多内容](http://codex.wordpress.org/Roles_and_Capabilities)（英文）。
 
 ##最后
-<ul>
-	* 对 WordPress 有任何建议、想法、评论或发现了 bug，请加入<a href="http://zh-cn.forums.wordpress.org/">中文支持论坛</a>。
-	* WordPress 准备了完善的插件 API 接口方便您进行扩展开发。作为开发人员，如果你有兴趣了解并加以利用，请参阅 <a href="http://codex.wordpress.org/Plugin_API">Codex 上的插件文档</a>。请尽量不要更改核心代码。
-</ul>
+
+	* 对 WordPress 有任何建议、想法、评论或发现了 bug，请加入[中文支持论坛](http://zh-cn.forums.wordpress.org/)。
+	* WordPress 准备了完善的插件 API 接口方便您进行扩展开发。作为开发人员，如果你有兴趣了解并加以利用，请参阅 [Codex 上的插件文档](http://codex.wordpress.org/Plugin_API)。请尽量不要更改核心代码。
+
 
 ##分享精神
 WordPress 没有数百万的市场运作资金，也没有名人赞助。不过我们有更棒的支持，那就是您！如果您喜欢 WordPress，请将它介绍给自己的朋友，或者帮助他人安装一个 WordPress，又或者写一篇赞扬我们的文章。
 
-WordPress 是 Michel V. 创建的 <a href="http://cafelog.com/">b2/cafelog</a> 官方后续版本，<a href="http://wordpress.org/about/">WordPress 开发团队</a>将其发展为如今的 WordPress。如果您愿意支持我们的工作，欢迎您对 WordPress 进行<a href="http://wordpress.org/donate/">捐赠</a>。
+WordPress 是 Michel V. 创建的 [捐赠](http://wordpress.org/donate/)。
 
 ##版权许可
-WordPress 基于 <abbr title="GNU Public License">GPL</abbr> 通用许可协议发布。详见 <a href="license.txt">license.txt</a>（英文）。
+WordPress 基于 [license.txt](license.txt)（英文）。
 
-
-</body>
-</html>
