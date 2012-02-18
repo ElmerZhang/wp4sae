@@ -10,6 +10,24 @@ https://github.com/ElmerZhang/wp4sae.git
 欢迎。WordPress 对我来说是一个具有特殊意义的项目。大家都能为 WordPress 添砖加瓦，因此作为其中一员我十分自豪。开发者和贡献者为 WordPress 奉献了难以估量的时间，我们都在致力于让 WordPress 更加优秀。现在，感谢您也参与其中。
 &#8212; Matt Mullenweg
 
+##安装：在sae上手动安装
+* 注册一个sae帐号，并添加一个php项目。
+* 通过SVN部署本地代码
+* svn checkout https://svn.sinaapp.com/newapp  #此处需要认证，用户名/密码为您的SAE安全邮箱和安全密码
+* cd newapp
+* mkdir 1
+* svn add 1
+* svn commit -m"add version 1 for newapp"
+* 从github上下载最新源码并添加到sae中
+* git clone https://github.com/ElmerZhang/wp4sae.git 1
+* svn add ./\*
+* svn commit -m"add wordpress"
+* 在新建的项目中，设置服务管理，开启MySQL和memcache。
+* 在浏览器中访问 [wp-admin/install.php](wp-admin/install.php)。它将帮助您把数据库链接信息写入到 wp-config.php 文件中。
+* 在配置文件就绪之后，WordPress 会自动尝试建立数据库表。若发生错误，请检查 wp-config.php 文件中填写的信息是否准确，然后再试。若问题依然存在，请访问[中文支持论坛](http://zh-cn.forums.wordpress.org/)寻求帮助。
+* <strong>若您不设置密码，请牢记生成的随机密码。</strong>若您不输入用户名，用户名将是 admin。
+* 完成后，安装向导会带您到[登录页面](wp-login.php)。用刚刚设置的用户名和密码登录。若您使用随机密码，在登录后可以按照页面提示修改密码。
+
 ##安装：著名的五分钟安装
 * 将 WordPress 压缩包解压至一个空文件夹，并上传它。
 * 在浏览器中访问 [wp-admin/install.php](wp-admin/install.php)。它将帮助您把数据库链接信息写入到 wp-config.php 文件中。
