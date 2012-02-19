@@ -1121,37 +1121,6 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 }
 
 /**
- * SAE Logo widget class
- *
- * @since 2.8.0
- */
-class WP_Widget_SAE_Logo extends WP_Widget {
-
-	function __construct() {
-		$widget_ops = array('description' => 'SAE Logo');
-		$control_ops = array();
-		parent::__construct('meta', 'SAE Logo', $widget_ops, $control_ops);
-	}
-
-	function widget( $args, $instance ) {
-		extract($args);
-		echo $before_widget;
-		?>
-		<p>
-			<a id="saelogo" href="http://sae.sina.com.cn" target="_blank"><img src="http://static.sae.sina.com.cn/image/poweredby/poweredby.png" title="Powered by Sina App Engine" /></a>
-		</p>
-		<?php
-		echo $after_widget;
-	}
-
-	function update( $new_instance, $old_instance ) {
-	}
-
-	function form( $instance ) {
-	}
-}
-
-/**
  * Register all of the default WordPress widgets on startup.
  *
  * Calls 'widgets_init' action after all of the WordPress widgets have been
@@ -1188,8 +1157,6 @@ function wp_widgets_init() {
 	register_widget('WP_Widget_Tag_Cloud');
 
 	register_widget('WP_Nav_Menu_Widget');
-
-	register_widget('WP_Widget_SAE_Logo');
 
 	do_action('widgets_init');
 }

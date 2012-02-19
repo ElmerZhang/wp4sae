@@ -195,11 +195,11 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 		echo '<tr class="plugin-update-tr"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="update-message">';
 
 		if ( ! current_user_can('update_plugins') )
-			printf( '新版本 %1$s 可用. <a href="%2$s">下载</a>新版本并手动升级.', $plugin_name, esc_url($r->package) );
+			printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a>.'), $plugin_name, esc_url($details_url), esc_attr($plugin_name), $r->new_version );
 		else if ( empty($r->package) )
 			printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a>. <em>Automatic update is unavailable for this plugin.</em>'), $plugin_name, esc_url($details_url), esc_attr($plugin_name), $r->new_version );
 		else
-			printf( '新版本 %1$s 可用. <a href="%2$s" class="thickbox" title="%3$s">查看版本 %4$s 的详细信息</a> 或 <a href="%5$s">下载</a> 新版本并手动升级.', $plugin_name, esc_url($details_url), esc_attr($plugin_name), $r->new_version, esc_url($r->package) );
+			printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a> or <a href="%5$s">update automatically</a>.'), $plugin_name, esc_url($details_url), esc_attr($plugin_name), $r->new_version, wp_nonce_url( self_admin_url('update.php?action=upgrade-plugin&plugin=') . $file, 'upgrade-plugin_' . $file) );
 
 		do_action( "in_plugin_update_message-$file", $plugin_data, $r );
 
@@ -274,7 +274,7 @@ function wp_theme_update_row( $theme_key, $theme ) {
 	else if ( empty( $r['package'] ) )
 		printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a>. <em>Automatic update is unavailable for this plugin.</em>'), $theme['Name'], esc_url($details_url), esc_attr($theme['Name']), $r['new_version'] );
 	else
-		printf( '新版本 %1$s 可用. <a href="%2$s">下载</a>新版本并手动升级.', $plugin_name, esc_url($r->package) );
+		printf( __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a> or <a href="%5$s">update automatically</a>.'), $theme['Name'], esc_url($details_url), esc_attr($theme['Name']), $r['new_version'], wp_nonce_url( self_admin_url('update.php?action=upgrade-theme&theme=') . $theme_key, 'upgrade-theme_' . $theme_key) );
 
 	do_action( "in_theme_update_message-$theme_key", $theme, $r );
 

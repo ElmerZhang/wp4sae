@@ -2,9 +2,9 @@
 /*
 Plugin Name: 多说
 Plugin URI: http://wordpress.org/extend/plugins/duoshuo/
-Description: 追求最佳用户体验的社会化评论框，为中小网站提供“新浪微博、QQ、人人、豆瓣等多帐号登录并评论”功能。“多说”帮你搭建更活跃，互动性更强的评论平台。它还有众多实用特性，功能强大且永久免费。
+Description: 追求最佳用户体验的社会化评论框，为中小网站提供“新浪微博、QQ、人人、豆瓣等多帐号登录并评论”功能。“多说”帮你搭建更活跃，互动性更强的评论平台，功能强大且永久免费。
 Author: 多说网
-Version: 0.4.3
+Version: 0.5
 Author URI: http://duoshuo.com/
 */
 
@@ -168,10 +168,24 @@ class DuoshuoClient{
 		
 		$response = $this->http->request($url, $args);
 			
-		if ($response->errors)//array(1) { ["http_request_failed"]=> array(1) { [0]=> string(21) "name lookup timed out" } }
-            throw new Duoshuo_Exception('连接服务器失败,详细信息：' . json_encode($response->errors), Duoshuo_Exception::REQUEST_TIMED_OUT);
-        
-        $json = json_decode($response['body'], true);
+		if (@$response->errors){
+			if (isset($response->errors['http_request_failed'])){
+				$message = $response->errors['http_request_failed'][0];
+				if ($message == 'name lookup timed out')
+					$message = 'DNS解析超时，请重试或检查你的主机的域名解析(DNS)设置。';
+				elseif (stripos($message, 'Could not open handle for fopen') === 0)
+					$message = '无法打开fopen句柄，请重试或联系多说管理员。http://duoshuo.com/';
+				elseif (stripos($message, 'Couldn\'t resolve host') === 0)
+					$message = '无法解析duoshuo.com域名，请重试或检查你的主机的域名解析(DNS)设置。';
+				elseif (stripos($message, 'Operation timed out after ') === 0)
+					$message = '操作超时，请重试或联系多说管理员。http://duoshuo.com/';
+				throw new Duoshuo_Exception($message, Duoshuo_Exception::REQUEST_TIMED_OUT);
+			}
+            else
+            	throw new Duoshuo_Exception('连接服务器失败, 详细信息：' . json_encode($response->errors), Duoshuo_Exception::REQUEST_TIMED_OUT);
+		}
+
+		$json = json_decode($response['body'], true);
 		return $json === null ? $response['body'] : $json;
 	}
 	
@@ -221,7 +235,7 @@ class DuoshuoClient{
 class Duoshuo {
 	const DOMAIN = 'duoshuo.com';
 	const STATIC_DOMAIN = 'static.duoshuo.com';
-	const VERSION = '0.4.3';
+	const VERSION = '0.5';
 	
 	/**
 	 * 
@@ -253,7 +267,6 @@ class Duoshuo {
 	 */
 	static $errorMessages = array();
 	
-	// ugly global hack for comments closing
 	static $EMBED = false;
 	
 	static function setVariables(){
@@ -288,6 +301,10 @@ class Duoshuo {
 			}
 			
 			add_action('admin_notices', array('Duoshuo', 'notices'));
+			
+			add_action('switch_theme', array('Duoshuo', 'updateSite'));
+			//	support from WP 2.9
+			add_action('updated_option', array('Duoshuo', 'updatedOption'));
 			
 			add_filter('post_row_actions', array('Duoshuo', 'actionsFilter'));
 			
@@ -334,6 +351,8 @@ class Duoshuo {
 			
 			//add_filter('comments_number')
 		}
+		
+		add_filter('comments_open', array('Duoshuo', 'commentsOpen'));
 		
 		if (get_option('duoshuo_cron_sync_enabled')){
 			add_action('duoshuo_sync_cron', array('Duoshuo', 'syncCron'));
@@ -463,9 +482,9 @@ class Duoshuo {
 	}
 	
 	static function config(){
-		if ($_SERVER['REQUEST_METHOD'] == 'POST' && !(self::$shortName && self::$secret)){
+		/*if ($_SERVER['REQUEST_METHOD'] == 'POST' && !(self::$shortName && self::$secret)){
 			self::registerSite();
-		}
+		}*/
 		include_once dirname(__FILE__) . '/config.php';
 	}
 	
@@ -476,7 +495,8 @@ class Duoshuo {
 	static function settings(){
 		 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			try{
-				 $params = $_POST + array(
+				$user = wp_get_current_user();
+				$params = $_POST + array(
 					'short_name'	=>	Duoshuo::$shortName,
 					'local_identity'=>	$user->ID,
 					'signature'		=>	Duoshuo::buildSignature($user->ID)
@@ -497,8 +517,9 @@ class Duoshuo {
 		include_once dirname(__FILE__) . '/profile.php';
 	}
 	
-	static function deactivate($network_wide){
-		delete_option('duoshuo_synchronized');
+	static function deactivate($network_wide = false){
+		//	升级插件的时候也会停用插件
+		//delete_option('duoshuo_synchronized');
 	}
 	
 	static function uninstall(){
@@ -510,14 +531,23 @@ class Duoshuo {
 		exit;
 	}
 	
+	/**
+	 * 关闭默认的评论，避免spammer
+	 */
+	static function commentsOpen($open, $post_id = null) {
+	    if (self::$EMBED)
+	    	return false;
+	    return $open;
+	}
+	
 	static function commentsTemplate($value){
 	    global $post;
 	    global $comments;
-		/*
+		
 	    if ( !( is_singular() && ( have_comments() || 'open' == $post->comment_status ) ) ) {
 	        return;
 	    }
-	
+		/*
 	    if ( !dsq_is_installed() || !dsq_can_replace() ) {
 	        return $value;
 	    }*/
@@ -560,6 +590,14 @@ class Duoshuo {
 					break;
 				default:
 			}
+		elseif ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['page']) && $_GET['page'] == 'duoshuo'){
+			switch(true){
+				case isset($_GET['duoshuo_connect_site']):
+					self::connectSite();
+					break;
+				default:
+			}
+		}
 	}
 	
 	static function appendScripts(){
@@ -636,59 +674,25 @@ function updateDuoshuoUnique(unique){
 <?php 
 	}
 
-	static function registerSite(){
-		$params = array(
-			'name'		=>	get_option('blogname'),
-			'description'=> get_option('blogdescription'),
-			'url'		=>	get_option('home'),
-			'siteurl'	=>	get_option('siteurl'),
-			'admin_email'=>	get_option('admin_email'),
-			'timezone'	=>	get_option('timezone_string'),
-			'use_smilies'=>	get_option('use_smilies'),
-			'system'	=>	'wordpress',
-			'system_theme'=>get_current_theme(),
-			'plugin_dir_url'=>	self::$pluginDirUrl,
-		);
-		$params['unique'] = $_POST['unique'];
+	static function connectSite(){
+		update_option('duoshuo_short_name', $_GET['short_name']);
+		update_option('duoshuo_secret', $_GET['secret']);
+		self::$shortName = $_GET['short_name'];
+		self::$secret = $_GET['secret'];
 		
-		try{
-			if (empty($_POST['secret'])){	//	register
-				$params['short_name'] = trim($_POST['short_name']);
-				
-				$client = new DuoshuoClient($params['short_name']);
-				
-				$apiResponse = $client->request('POST', 'sites/create', $params);
-			}
-			else{	//	connect
-				$params['short_name'] = trim($_POST['short_name']);
-				$params['secret'] = trim($_POST['secret']);
-				
-				$client = new DuoshuoClient($params['short_name']);
-				
-				$apiResponse = $client->request('POST', 'sites/update', $params);
-			}
-			
-			if ($apiResponse['code'] != 0)
-				throw new Duoshuo_Exception($apiResponse['errorMessage'], $apiResponse['code']);
-			
-			$site = $apiResponse['response'];
-			
-			update_option('duoshuo_short_name', $site['short_name']);
-			update_option('duoshuo_secret', $site['secret']);
-			self::$shortName = $site['short_name'];
-			self::$secret = $site['secret'];
-			
-			$client->shortName = $site['short_name'];
-			$user = wp_get_current_user();
-			self::syncUserToRemote($user->ID);
-			self::loginUser($user->ID, $_POST['unique']);
-		}
-		catch(Duoshuo_Exception $e){
-			self::showException($e);
-		}
+		$client = new DuoshuoClient(self::$shortName);
+		
+		$user = wp_get_current_user();
+		self::joinSite($user, $_GET['unique']);?>
+<script>window.top.location.reload();</script>
+<?php 
+		exit;
 	}
 	
 	static function export(){
+		@set_time_limit(0);
+		@ini_set('memory_limit', '256M');
+		
 		$progress = get_option('duoshuo_synchronized');
 		
 		if (!$progress || is_numeric($progress))//	之前已经完成了导出流程
@@ -703,7 +707,7 @@ function updateDuoshuoUnique(unique){
 					$count = self::exportUsers($limit, $offset);
 					break;
 				case 'post':
-					$limit = 10;
+					$limit = 20;
 					$count = self::exportPosts($limit, $offset);
 					break;
 				case 'comment':
@@ -742,7 +746,7 @@ function updateDuoshuoUnique(unique){
 		$columns = array('ID', 'user_nicename', 'user_email', 'user_url', 'user_registered', 'display_name');
 		$users = $wpdb->get_results( $wpdb->prepare("SELECT " . implode(',', $columns) . "  FROM $wpdb->users order by ID asc limit $offset,$limit"));
 		
-		$blog_prefix = $wpdb->get_blog_prefix();
+		$blog_prefix = self::get_blog_prefix();
 	    foreach($users as $user)
 		    $user->capabilities = self::getUserMeta($user->ID, $blog_prefix.'capabilities');
 		$params = array('data'=>json_encode($users));
@@ -753,6 +757,116 @@ function updateDuoshuoUnique(unique){
 			self::updateUserMeta($userId, 'duoshuo_user_id', $duoshuoUserId);
 		
 		return count($users);
+	}
+	
+	static function packageUser($user){
+		global $wpdb;
+		
+		if ($user instanceof WP_User){	//	wordpress 3.3
+			$userData = $user->data;
+			unset($userData->user_pass);
+			unset($userData->user_login);
+			$capabilities = $user->caps;
+		}
+		else{
+			$userData = $user;
+			unset($userData->user_pass);
+			unset($userData->user_login);
+			$capabilities = self::getUserMeta($user->ID, self::get_blog_prefix().'capabilities', true);
+		}
+		
+		$data = array(
+			'source_user_id'=>	$userData->ID,
+			'name'			=>	$userData->display_name,
+			'email'			=>	$userData->user_email,
+			'url'			=>	$userData->user_url,
+			'created_at'	=>	$userData->user_registered,
+		);
+		
+		$roleMap = array(
+			'administrator'	=>	'administrator',
+			'editor'		=>	'editor',
+			'author'		=>	'author',
+			'contributor'	=>	'user',
+			'subscriber'	=>	'user',
+		);
+		
+		foreach($roleMap as $wpRole => $role)
+			if (isset($capabilities[$wpRole]) && $capabilities[$wpRole]){
+				$data['role'] = $role;
+				break;
+			}
+		
+		return $data;
+	}
+	
+	static $optionsMap = array(
+		'blogname'	=>	'name',
+		'blogdescription'=>'description',
+		'home'		=>	'url',
+		'siteurl'	=>	'siteurl',
+		'admin_email'=>	'admin_email',
+		'timezone_string'=>'timezone',
+		'use_smilies'=>	'use_smilies',
+		'current_theme'=>'system_theme',
+	);
+	
+	static function packageOptions(){
+		$options = array();
+		foreach(self::$optionsMap as $key => $value)
+			$options[$value] = get_option($key);
+		
+		if ($akismet_api_key = get_option('wordpress_api_key'))
+			$options['akismet_api_key'] = $akismet_api_key;
+		$options['plugin_dir_url'] = self::$pluginDirUrl;
+		
+		return $options;
+	}
+	
+	static function updateSite(){
+		$params = self::packageOptions();
+		$user = wp_get_current_user();
+		
+		try{
+			$params += array(
+				'short_name'	=>	Duoshuo::$shortName,
+				'local_identity'=>	$user->ID,
+				'signature'		=>	Duoshuo::buildSignature($user->ID)
+			);
+			
+			$response = Duoshuo::getClient()->request('POST', 'sites/settings', $params);
+			
+			if ($response['code'] != 0)
+				echo '<div id="message" class="updated fade"><p><strong>' . $response['errorMessage'] . '</strong></p></div>';
+		}
+		catch(Duoshuo_Exception $e){
+			Duoshuo::showException($e);
+		}
+	}
+	
+	static function updatedOption($option, $oldvalue = null, $newvalue = null){
+		if (isset(self::$optionsMap[$option]))
+			self::updateSite();
+		
+		//'system_theme'=>get_current_theme(),
+		//'plugin_dir_url'=>self::$pluginDirUrl,
+	}
+	
+	static function joinSite($user, $unique){
+		global $wpdb;
+		
+		$data = self::packageUser($user);
+		
+		$params = array('data'=>json_encode($data), 'unique' => $unique, 'short_name'=>self::$shortName);
+		try{
+			$remoteResponse = self::getClient()->request('POST', 'sites/join', $params);
+		
+			if (isset($remoteResponse['response']))
+				self::updateUserMeta($data['source_user_id'], 'duoshuo_user_id', $remoteResponse['response']['user_id']);
+		}
+		catch(Duoshuo_Exception $e){
+			self::showException($remoteResponse);
+		}
 	}
 	
 	static function syncUserToRemote($userId){
@@ -769,7 +883,7 @@ function updateDuoshuoUnique(unique){
 			$userData = $user;
 			unset($userData->user_pass);
 			unset($userData->user_login);
-			$blog_prefix = $wpdb->get_blog_prefix();
+			$blog_prefix = self::get_blog_prefix();
 			$userData->capabilities = self::getUserMeta($user->ID, $blog_prefix.'capabilities', true);
 		}
 		
@@ -791,7 +905,7 @@ function updateDuoshuoUnique(unique){
 		global $wpdb;
 		
 		$columns = array('ID', 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_excerpt', 'post_status', 'comment_status', 'post_name', 'post_modified_gmt', 'guid', 'post_type');
-		$posts = $wpdb->get_results( $wpdb->prepare("SELECT " . implode(',', $columns) . "  FROM $wpdb->posts where post_status <> 'auto-draft' and post_status <> 'inherit' order by ID asc limit $offset,$limit") );
+		$posts = $wpdb->get_results( $wpdb->prepare("SELECT " . implode(',', $columns) . "  FROM $wpdb->posts where post_type <> 'nav_menu_item' and post_status <> 'auto-draft' and post_status <> 'inherit' order by ID asc limit $offset,$limit") );
 		
 		$data = array();
 		foreach($posts as $post)
@@ -876,8 +990,10 @@ function updateDuoshuoUnique(unique){
 			'orderby' => 'menu_order ID'
 		);
 		$images = array();
-		foreach(get_children($args) as $attachment)
-			$images[] = wp_get_attachment_url($attachment->ID);
+		$children = get_children($args);
+		if (is_array($children))
+			foreach($children as $attachment)
+				$images[] = wp_get_attachment_url($attachment->ID);
 		if (!empty($images))
 			$params['images'] = json_encode($images);
 		
@@ -996,7 +1112,7 @@ function updateDuoshuoUnique(unique){
 			}
 			
 			$data = array(
-				'comment_author'	=>	$post['author_name'],
+				'comment_author'	=>	trim(strip_tags($post['author_name'])),
 		 		'comment_author_email'=>$post['author_email'],
 		 		'comment_author_url'=>	$post['author_url'], 
 		 		'comment_author_IP'	=>	$post['ip'],
@@ -1105,6 +1221,14 @@ function updateDuoshuoUnique(unique){
 			update_user_meta($userId, $metaKey, $metaValue);
 		else
 			update_usermeta($userId, $metaKey, $metaValue);
+	}
+	
+	static function get_blog_prefix(){
+		global $wpdb;
+		if (method_exists($wpdb,'get_blog_prefix'))
+			return $wpdb->get_blog_prefix();
+		else
+			return $wpdb->prefix;
 	}
 	
 	static function getUserMeta($userId, $metaKey, $single = false){

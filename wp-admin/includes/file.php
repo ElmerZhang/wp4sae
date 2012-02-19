@@ -2,7 +2,6 @@
 /**
  * File contains all the administration image manipulation functions.
  *
- * @modified Elmer Zhang <freeboy6716@gmail.com>
  * @package WordPress
  * @subpackage Administration
  */
@@ -349,6 +348,10 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 	copy( $tmp_file, $new_file );
 	unlink($tmp_file);
 
+	// Set correct file permissions
+	$stat = stat( dirname( $new_file ));
+	$perms = $stat['mode'] & 0000666;
+	@ chmod( $new_file, $perms );
 
 	// Compute the URL
 	$url = $uploads['url'] . "/$filename";
@@ -468,6 +471,10 @@ function wp_handle_sideload( &$file, $overrides = false ) {
 		return $upload_error_handler( $file, sprintf( __('The uploaded file could not be moved to %s.' ), $uploads['path'] ) );
 	}
 
+	// Set correct file permissions
+	$stat = stat( dirname( $new_file ));
+	$perms = $stat['mode'] & 0000666;
+	@ chmod( $new_file, $perms );
 
 	// Compute the URL
 	$url = $uploads['url'] . "/$filename";

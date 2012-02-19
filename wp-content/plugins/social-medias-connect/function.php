@@ -1,6 +1,6 @@
 <?php 
 function smc_warning(){
-	if($_GET['page']!='smc_bind_weibo_option')
+	if(@$_GET['page']!='smc_bind_weibo_option')
 		echo '<div class="error"><p>请到<a href="'.smc_menu_page_url('smc_bind_weibo_option',false).'">Social Medias Connect</a>更新插件设置</p></div>';
 }
 function smc_no_global_option(){
@@ -18,7 +18,7 @@ function smc_init(){
 	}else{
 		wp_cache_add('global_option',$SMC,'smc');
 	}
-	if((is_user_logged_in() && is_admin() && ($_GET['page']=='social-medias-connect/function.php' || $_GET['page']=='smc_bind_weibo_acount') || !is_user_logged_in()) && (isset($_GET['oauth_token'])||isset($_GET['code'])) && $_GET['action']!=='smcregister'){
+	if((is_user_logged_in() && is_admin() && (@$_GET['page']=='social-medias-connect/function.php' || @$_GET['page']=='smc_bind_weibo_acount') || !is_user_logged_in()) && (isset($_GET['oauth_token'])||isset($_GET['code'])) && $_GET['action']!=='smcregister'){
 		$weibo=$_SESSION["smc_weibo"];
 		if(!$weibo){
 			wp_die('您的主机配置不正确，请检查您主机的php.ini中的session.save_path设置，或者将session.use_trans_sid一项设置为session.use_trans_sid=1。<br/><div style="text-align:right;"><p><a onclick="window.close();" target="_blank" href="http://www.qiqiboy.com/products/plugins/social-medias-connect">Powered by 社交媒体连接</a></p></div>');
@@ -54,10 +54,10 @@ function smc_init(){
 		}
 	}else{
 		if(smc_is_administrator()){
-			if($_GET['action']=='getappkey'){
+			if(@$_GET['action']=='getappkey'){
 				smc_get_appkey($_GET['weibo']);die();
 			}
-			if($_GET['page']=='social-medias-connect/function.php' && is_admin() && isset($r)){
+			if(@$_GET['page']=='social-medias-connect/function.php' && is_admin() && isset($r)){
 				if(is_array($r)){
 					$tok=array('user_login'=>$r['user_login'],'weibo'=>$r['weibo'],'weibo_uid'=>$r['weibo_uid'],'uid'=>get_current_user_id(),'oauth_token'=>$r['oauth_access_token'],'oauth_token_secret'=>$r['oauth_access_token_secret']);
 					$weibotok=get_option('weibo_access_token');
@@ -65,7 +65,7 @@ function smc_init(){
 					update_option('weibo_access_token',$weibotok);
 				}
 			}
-			if($_GET['smc_request']=='getglobaloption') {
+			if(@$_GET['smc_request']=='getglobaloption') {
 				$sae=smc_get_global_option();
 				if($sae===false)$sae=smc_get_global_option('http://u.boy.im/socialmedias/');
 				if($sae===true){
@@ -74,7 +74,7 @@ function smc_init(){
 				wp_safe_redirect(smc_menu_page_url('social-medias-connect/function.php',false).'&smc_info='.urlencode($info[1]).'&smc_info_type='.$info[0]);
 			}
 		}
-		if($_GET['page']=='smc_bind_weibo_acount' && is_admin() && isset($r)){
+		if(@$_GET['page']=='smc_bind_weibo_acount' && is_admin() && isset($r)){
 			if($__wpuid=smc_get_user_by_meta('smc_weibo_email_bind',$r['user_email'])){
 				$_user=get_user_by('id',$__wpuid);
 				wp_die('此微博已经绑定了账号(<b>'.$_user->user_login.'</b>)，如果要绑定到此账户，请先使用<b>'.$_user->user_login.'</b>登陆网站，然后解除与<b>'.$_user->user_login.'</b>的绑定。<br/><br/><a href="javascript:window.close();">点击这里关闭窗口</a>');
@@ -1057,7 +1057,7 @@ function smc_get_client_ip(){
 }
 function get_current_page_url(){
     $current_page_url = 'http';
-    if ($_SERVER["HTTPS"] == "on") {
+    if (@$_SERVER["HTTPS"] == "on") {
         $current_page_url .= "s";
     }
      $current_page_url .= "://";

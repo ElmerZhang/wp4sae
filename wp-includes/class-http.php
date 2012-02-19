@@ -7,7 +7,6 @@
  *
  * @link http://trac.wordpress.org/ticket/4779 HTTP API Proposal
  *
- * @modified Elmer Zhang <freeboy6716@gmail.com>
  * @package WordPress
  * @subpackage HTTP
  * @since 2.7.0
@@ -215,7 +214,7 @@ class WP_Http {
 			if ( !call_user_func( array( $class, 'test' ), $args, $url ) )
 				continue;
 
-			return 'WP_Http_Curl';
+			return $class;
 		}
 
 		return false;
@@ -1076,19 +1075,17 @@ class WP_Http_Curl {
 		}
 
 		// The option doesn't work with safe mode or when open_basedir is set.
-		if ( !ini_get('safe_mode') && 0 !== $r['_redirection'] )
+		if ( !ini_get('safe_mode') && !ini_get('open_basedir') && 0 !== $r['_redirection'] )
 			curl_setopt( $handle, CURLOPT_FOLLOWLOCATION, true );
 
 		if ( !empty( $r['headers'] ) ) {
 			// cURL expects full header strings in each element
 			$headers = array();
 			foreach ( $r['headers'] as $name => $value ) {
-				if ( strtolower($name) != 'host' )
-					$headers[] = "{$name}: $value";
+				$headers[] = "{$name}: $value";
 			}
 			curl_setopt( $handle, CURLOPT_HTTPHEADER, $headers );
 		}
-		curl_setopt( $handle, CURLINFO_HEADER_OUT, true );
 
 		if ( $r['httpversion'] == '1.0' )
 			curl_setopt( $handle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0 );
@@ -1133,7 +1130,7 @@ class WP_Http_Curl {
 			fclose( $stream_handle );
 
 		// See #11305 - When running under safe mode, redirection is disabled above. Handle it manually.
-		if ( ! empty( $theHeaders['headers']['location'] ) && ( ini_get( 'safe_mode' ) ) && 0 !== $r['_redirection'] ) {
+		if ( ! empty( $theHeaders['headers']['location'] ) && ( ini_get( 'safe_mode' ) || ini_get( 'open_basedir' ) ) && 0 !== $r['_redirection'] ) {
 			if ( $r['redirection']-- > 0 ) {
 				return $this->request( $theHeaders['headers']['location'], $r );
 			} else {
