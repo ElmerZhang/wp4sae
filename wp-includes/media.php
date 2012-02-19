@@ -2,7 +2,6 @@
 /**
  * WordPress API for media display.
  *
- * @modified Elmer Zhang <freeboy6716@gmail.com>
  * @package WordPress
  */
 
@@ -447,23 +446,26 @@ function image_resize( $file, $max_w, $max_h, $crop = false, $suffix = null, $de
 	if ( !is_null($dest_path) and $_dest_path = realpath($dest_path) )
 		$dir = $_dest_path;
 	$destfilename = "{$dir}/{$name}-{$suffix}.{$ext}";
-	$tmp = tempnam(SAE_TMP_PATH, 'WPIMG');
 
 	if ( IMAGETYPE_GIF == $orig_type ) {
-		if ( !imagegif( $newimage, $tmp ) || !copy($tmp, $destfilename) )
+		if ( !imagegif( $newimage, $destfilename ) )
 			return new WP_Error('resize_path_invalid', __( 'Resize path invalid' ));
 	} elseif ( IMAGETYPE_PNG == $orig_type ) {
-		if ( !imagepng( $newimage, $tmp ) || !copy($tmp, $destfilename) )
+		if ( !imagepng( $newimage, $destfilename ) )
 			return new WP_Error('resize_path_invalid', __( 'Resize path invalid' ));
 	} else {
 		// all other formats are converted to jpg
 		$destfilename = "{$dir}/{$name}-{$suffix}.jpg";
-		if ( !imagejpeg( $newimage, $tmp, apply_filters( 'jpeg_quality', $jpeg_quality, 'image_resize' ) ) || !copy($tmp, $destfilename) )
+		if ( !imagejpeg( $newimage, $destfilename, apply_filters( 'jpeg_quality', $jpeg_quality, 'image_resize' ) ) )
 			return new WP_Error('resize_path_invalid', __( 'Resize path invalid' ));
 	}
 
 	imagedestroy( $newimage );
 
+	// Set correct file permissions
+	$stat = stat( dirname( $destfilename ));
+	$perms = $stat['mode'] & 0000666; //same permissions as parent folder, strip off the executable bits
+	@ chmod( $destfilename, $perms );
 
 	return $destfilename;
 }
@@ -486,7 +488,6 @@ function image_resize( $file, $max_w, $max_h, $crop = false, $suffix = null, $de
 function image_make_intermediate_size($file, $width, $height, $crop=false) {
 	if ( $width || $height ) {
 		$resized_file = image_resize($file, $width, $height, $crop);
-		usleep(300000);
 		if ( !is_wp_error($resized_file) && $resized_file && $info = getimagesize($resized_file) ) {
 			$resized_file = apply_filters('image_make_intermediate_size', $resized_file);
 			return array(

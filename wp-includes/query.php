@@ -2743,7 +2743,7 @@ class WP_Query {
 		$this->post_count = count($this->posts);
 
 		// Always sanitize
-		if ( $this->posts ) foreach ( $this->posts as $i => $post ) {
+		foreach ( $this->posts as $i => $post ) {
 			$this->posts[$i] = sanitize_post( $post, 'raw' );
 		}
 

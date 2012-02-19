@@ -22,10 +22,29 @@ function fireExport(){
 function exportProgress(progress){
 	var $ = jQuery;
 	var rdigit = /\d/;
-    $.post(
-        ajaxurl,
-        {action: 'duoshuo_export'},
-        function(response) {
+    $.ajax({
+        url:ajaxurl,
+        data:{action: 'duoshuo_export'},
+        error:function(jqXHR, textStatus){
+            switch(textStatus){
+            case 'parsererror':
+            	alert('解析错误，联系多说客服帮助解决问题：' + jqXHR.responseText);
+            	break;
+            case "abort":
+            	break;
+            case "notmodified":
+            case "error":
+            case "timeout":
+            default:
+            	var dict = {
+            		notmodified	: '没有变化',
+                	error		: '出错了',
+                	timeout		: '超时了'
+                };
+                alert(dict[textStatus] + ', 联系多说客服帮助解决问题');
+            }
+        },
+        success:function(response) {
         	if (response.code == 0){
         		if (rdigit.test(response.progress) && !isNaN(response.progress)){
         	    	$('#ds-export').removeClass('ds-exporting').addClass('ds-exported');
@@ -58,7 +77,7 @@ function exportProgress(progress){
                 break;
             }*/
         },
-        'json'
-    );
+        dataType:'json'
+    });
 }
 </script>

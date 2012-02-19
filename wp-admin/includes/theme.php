@@ -261,7 +261,7 @@ function theme_update_available( $theme ) {
 			else if ( empty($update['package']) )
 				printf( '<p><strong>' . __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s details</a>. <em>Automatic update is unavailable for this theme.</em>') . '</strong></p>', $theme_name, $details_url, $update['new_version']);
 			else
-				printf( '<p><strong>' . __('新版本 %1$s 可用。<a href=\"%2$s\" class=\"thickbox\" title=\"%1$s\">查看 %3$s 版本的详细信息</a>或<a href=\"%4$s\" >下载新版</a>。') . '</strong></p>', $theme_name, $details_url, $update['new_version'], $theme->download_link );
+				printf( '<p><strong>' . __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s details</a> or <a href="%4$s" %5$s>update automatically</a>.') . '</strong></p>', $theme_name, $details_url, $update['new_version'], $update_url, $update_onclick );
 		}
 	}
 }

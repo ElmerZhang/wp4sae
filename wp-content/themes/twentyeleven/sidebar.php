@@ -32,8 +32,5 @@ if ( 'content' != $current_layout ) :
 				</aside>
 
 			<?php endif; // end sidebar widget area ?>
-				<aside id="meta" class="widget">
-					<a id="saelogo" href="http://sae.sina.com.cn" target="_blank"><img src="http://static.sae.sina.com.cn/image/poweredby/poweredby.png" title="Powered by Sina App Engine" /></a>
-				</aside>
 		</div><!-- #secondary .widget-area -->
 <?php endif; ?>

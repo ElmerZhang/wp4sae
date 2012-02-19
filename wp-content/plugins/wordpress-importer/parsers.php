@@ -389,7 +389,7 @@ class WXR_Parser_Regex {
 	}
 
 	function __construct() {
-		$this->has_gzip = false;
+		$this->has_gzip = is_callable( 'gzopen' );
 	}
 
 	function parse( $file ) {

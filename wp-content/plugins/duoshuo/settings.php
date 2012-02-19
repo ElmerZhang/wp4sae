@@ -38,11 +38,11 @@ catch(Duoshuo_Exception $e){
 		</tr>
 		<tr valign="top">
 			<th scope="row">评论框前缀</th>
-			<td><input type="text" class="regular-text" name="duoshuo_comments_wrapper_intro" value="<?php echo esc_attr(get_option('duoshuo_comments_wrapper_intro'));?>" /><span class="description">仅在主题和评论框的div嵌套不正确的情况下使用</span></td>
+			<td><input type="text" class="regular-text code" name="duoshuo_comments_wrapper_intro" value="<?php echo esc_attr(get_option('duoshuo_comments_wrapper_intro'));?>" /><span class="description">仅在主题和评论框的div嵌套不正确的情况下使用</span></td>
 		</tr>
 		<tr valign="top">
 			<th scope="row">评论框后缀</th>
-			<td><input type="text" class="regular-text" name="duoshuo_comments_wrapper_outro" value="<?php echo esc_attr(get_option('duoshuo_comments_wrapper_outro'));?>" /><span class="description">仅在主题和评论框的div嵌套不正确的情况下使用</span></td>
+			<td><input type="text" class="regular-text code" name="duoshuo_comments_wrapper_outro" value="<?php echo esc_attr(get_option('duoshuo_comments_wrapper_outro'));?>" /><span class="description">仅在主题和评论框的div嵌套不正确的情况下使用</span></td>
 		</tr>
 		</tbody>
 	</table>
@@ -57,9 +57,63 @@ catch(Duoshuo_Exception $e){
 </div>
 <?php include_once dirname(__FILE__) . '/common-script.html';?>
 
+<div style="display:none">
 <h3>卸载</h3>
 <form action="" method="post" onsubmit="return confirm('你确定要卸载多说评论插件吗？');">
 	<input type="hidden" name="action" value="duoshuo_uninstall" />
 	<p class="submit"><input type="submit" class="button" value="卸载" name="duoshuo_uninstall" /></p>
 </form>
+</div>
+
+<?php
+$services = array(
+	'qzone'	=>	'QQ空间',
+	'weibo'	=>	'新浪微博',
+	'qqt'	=>	'腾讯微博',
+	'renren'=>	'人人网',
+	'kaixin'=>	'开心网',
+	'douban'=>	'豆瓣网',
+	'netease'=>	'网易微博',
+	'sohu'	=>	'搜狐微博',
+);
+
+?>
+<link rel="stylesheet" href="<?php echo self::$pluginDirUrl; ?>styles.css" type="text/css" />
+<h3>我们永远相信，分享是一种美德</h3>
+<p style="width:100%;overflow: hidden;">把多说分享给你的朋友：</p>
+<ul class="ds-share ds-service-icon">
+<?php foreach($services as $service => $serviceName):?>
+	<li><a class="ds-<?php echo $service;?>" title="<?php echo $serviceName;?>"></a></li>
+<?php endforeach;?>
+</ul>
+<script>
+jQuery(function(){
+	var $ = jQuery,
+		duoshuoName = {
+			weibo	: '@多说网',
+			qzone	: '@多说网',
+			qqt		: '@多说网',
+			renren	: '多说',
+			kaixin	: '多说',
+			douban	: '多说',
+			netease	: '@多说网',
+			sohu	: '@多说网'
+		},
+		handler = function(e){
+			var service = this.className.match(/ds\-(\w+)/)[1],
+				message = <?php echo json_encode('我的' . get_option('blogname') . '（' .get_option('siteurl') . '）装了');?> + duoshuoName[service] + ' 评论插件，用微博、QQ、人人帐号就能登录评论了，很给力。来试试吧！',
+				image = 'http://static.duoshuo.com/images/top.jpg',
+				title = '多说评论插件',
+				url = 'http://duoshuo.com';
+			window.open('http://<?php echo self::$shortName . '.' . Duoshuo::DOMAIN;?>/share-proxy/?service=' + service + '&url=' + encodeURIComponent(url) + '&message=' + encodeURIComponent(message) + '&title=' + encodeURIComponent(title) + '&images=' + image,
+				'_blank',
+				'height=550,width=600,top=0,left=0,toolbar=no,menubar=no,resizable=yes,location=yes,status=no');
+			return false;
+		};
+	$.fn.delegate
+		? $('.ds-share').delegate('a', 'click', handler)
+		: $('.ds-share a').click(handler);
+});
+</script>
+
 </div>

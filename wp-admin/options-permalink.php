@@ -145,7 +145,23 @@ $wp_rewrite->flush_rules();
 
 if (isset($_POST['submit'])) : ?>
 <div id="message" class="updated"><p><?php
+if ( ! is_multisite() ) {
+	if ( $iis7_permalinks ) {
+		if ( $permalink_structure && ! $usingpi && ! $writable )
+			_e('You should update your web.config now');
+		else if ( $permalink_structure && ! $usingpi && $writable )
+			_e('Permalink structure updated. Remove write access on web.config file now!');
+		else
+			_e('Permalink structure updated');
+	} else {
+		if ( $permalink_structure && ! $usingpi && ! $writable )
+			_e('You should update your .htaccess now.');
+		else
+			_e('Permalink structure updated.');
+	}
+} else {
 	_e('Permalink structure updated.');
+}
 ?>
 </p></div>
 <?php endif; ?>
@@ -232,7 +248,7 @@ $structures = array(
 
 <?php submit_button(); ?>
   </form>
-<?php if ( false && !is_multisite() ) { ?>
+<?php if ( !is_multisite() ) { ?>
 <?php if ( $iis7_permalinks ) :
 	if ( isset($_POST['submit']) && $permalink_structure && ! $usingpi && ! $writable ) :
 		if ( file_exists($home_path . 'web.config') ) : ?>

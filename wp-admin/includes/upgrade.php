@@ -147,15 +147,40 @@ function wp_install_defaults($user_id) {
 
 	// Now drop in some default links
 	$default_links = array();
-	$default_links[] = array(	'link_url' => 'http://wp4sae.sinaapp.com/',
-								'link_name' => 'WordPress for SAE',
-								'link_rss' => 'http://wp4sae.sinaapp.com/feed/',
+	$default_links[] = array(	'link_url' => 'http://codex.wordpress.org/',
+								'link_name' => 'Documentation',
+								'link_rss' => '',
 								'link_notes' => '');
 
 	$default_links[] = array(	'link_url' => 'http://wordpress.org/news/',
 								'link_name' => 'WordPress Blog',
 								'link_rss' => 'http://wordpress.org/news/feed/',
 								'link_notes' => '');
+
+	$default_links[] = array(	'link_url' => 'http://wordpress.org/extend/ideas/',
+								'link_name' => 'Suggest Ideas',
+								'link_rss' => '',
+								'link_notes' =>'');
+
+	$default_links[] = array(	'link_url' => 'http://wordpress.org/support/',
+								'link_name' => 'Support Forum',
+								'link_rss' => '',
+								'link_notes' =>'');
+
+	$default_links[] = array(	'link_url' => 'http://wordpress.org/extend/plugins/',
+								'link_name' => 'Plugins',
+								'link_rss' => '',
+								'link_notes' =>'');
+
+	$default_links[] = array(	'link_url' => 'http://wordpress.org/extend/themes/',
+								'link_name' => 'Themes',
+								'link_rss' => '',
+								'link_notes' =>'');
+
+	$default_links[] = array(	'link_url' => 'http://planet.wordpress.org/',
+								'link_name' => 'WordPress Planet',
+								'link_rss' => '',
+								'link_notes' =>'');
 
 	foreach ( $default_links as $link ) {
 		$wpdb->insert( $wpdb->links, $link);
@@ -179,50 +204,13 @@ function wp_install_defaults($user_id) {
 		$first_post = __('Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!');
 	}
 
-	$first_title = @file_get_contents('http://wp4saeapi.sinaapp.com/first_title.txt');
-	if (!$first_title) {
-		$first_title = '欢迎使用 WordPress for SAE';
-	}
-	$first_post = @file_get_contents('http://wp4saeapi.sinaapp.com/first_post.txt');
-	if (!$first_post) {
-		$first_post = '欢迎使用 WordPress for SAE。如果您看到这篇文章，表示您的Blog已经在SAE安装成功。您可以编辑或者删除它，然后开始您的博客！
-
-WordPress for SAE 技术支持博客：<a title="WordPress for SAE 技术支持" href="http://wp4sae.sinaapp.com">http://wp4sae.sinaapp.com</a>。请关注此博客，以及时获>取最新信息。
-如果您在使用WordPress for SAE的过程中，有任何疑问、意见或建议，请到<a title="WordPress for SAE 技术支持" href="http://wp4sae.sinaapp.com">技术支持博客</a>提>出，我们将会尽快为您解答。 
-
-WordPress for SAE具有以下特性：
-<ol>
-    <li>数据库主从分离，提升性能，节省云豆消耗</li>
-    <li>轻量的Memcache缓存模块，加快网页显示速度的同时减少资源消耗，为您节省云豆。</li>
-    <li>已内置urlrewrite规则，用户设置固定链接时只需要在控制板中设置一下即可，无需再修改appconfig(.htaccess)配置</li>
-    <li>附件直接上传到Storage，支持图片附件的缩略图生成。</li>
-    <li>相较于旧版WordPress for SAE，自本版本起完善邮件发送功能。仅需在WP-Mail-SMTP插件中正确设置SMTP服务器，即可使用邮件发送功能。</li>
-</ol>
-WordPress for SAE 已经为您集成了以下插件，您可以到根据您的需求在控制板中启用您所需要的插件：
-<ol>
-    <li>Add To Any: 分享插件，可以在您的文章结尾添加分享按钮，一键分享到新浪微博、twitter、facebook等网站，但对国内网站支持较少</li>
-    <li>JiaThis：同样是分享插件，功能不如Add To Any强大，但是对国内网站如新浪微博、腾讯微博、人人等支持比较全。</li>
-    <li>Akismet：WordPress内置插件，用于防拉圾评论，使用说明见： http://wp4sae.sinaapp.com/2011/05/akismet-introduce/</li>
-    <li>Google Analytics for WordPress：为网站添加Google Analytics统计代码。</li>
-    <li>Google XML Sitemaps：生成网站sitemap，并自动提交到Google, Bing和Ask.com</li>
-    <li>Lightbox 2：无刷新显示原始图片</li>
-    <li>SI CAPTCHA Anti-Spam：为评论、登录等添加验证码</li>
-    <li>WordPress Importer：数据导入插件，方便BLOG迁移</li>
-    <li>WP-CodeBox：代码高亮插件，给程序员们用的</li>
-    <li>WP-Mail-SMTP：邮件SMTP服务器设置，设置过邮件SMTP之后，网站的发邮件功能才能正常使用（注册用户等操作时网站需要发送邮件）。为保证邮件发送成功率，推荐大>家使用新浪邮箱发送邮件。</li> 
-    <li>Social Medias Connect：提供wordpress与其它社交媒体网站的连接登陆及文章同步、评论同步转发功能。支持Twitter、新浪微博、腾讯微博、搜狐微博、网易微博、豆
-瓣、饭否、Follow5。</li>
-</ol>
-';
-	}
-
 	$wpdb->insert( $wpdb->posts, array(
 								'post_author' => $user_id,
 								'post_date' => $now,
 								'post_date_gmt' => $now_gmt,
 								'post_content' => $first_post,
 								'post_excerpt' => '',
-								'post_title' => $first_title,
+								'post_title' => __('Hello world!'),
 								/* translators: Default post slug */
 								'post_name' => sanitize_title( _x('hello-world', 'Default post slug') ),
 								'post_modified' => $now,
