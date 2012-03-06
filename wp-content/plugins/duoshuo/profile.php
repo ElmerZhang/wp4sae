@@ -2,11 +2,15 @@
 $user = wp_get_current_user();
 if ( $_SERVER['REQUEST_METHOD'] == 'POST'):
 
-$params = $_POST + array(
+$params = array(
 	'short_name'	=>	Duoshuo::$shortName,
 	'local_identity'=>	$user->ID,
-	'signature'		=>	Duoshuo::buildSignature($user->ID)
-);
+	'signature'		=>	Duoshuo::buildSignature($user->ID),
+
+	'name'			=> stripslashes($_POST['name']),
+	'email'			=> stripslashes($_POST['email']),
+	'url'			=> stripslashes($_POST['url']),
+) + $_POST;
 
 try{
 	$response = Duoshuo::getClient()->request('POST', 'users/update', $params);

@@ -2,8 +2,10 @@
 if (!isset($post))
 	global $post;
 
-if (!did_action('wp_head'))
+if (!did_action('wp_head') && !Duoshuo::$scriptsPrinted){
 	Duoshuo::printScripts();
+	Duoshuo::$scriptsPrinted = true;
+}
 
 if ($intro = get_option('duoshuo_comments_wrapper_intro'))
 	echo $intro;

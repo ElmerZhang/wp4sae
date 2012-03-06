@@ -8,20 +8,15 @@ function duoshuo_comment( $comment, $args, $depth ) {
 	<li class="post pingback">
 		<p><?php _e( 'Pingback:', 'duoshuo' ); ?> <?php comment_author_link(); ?><?php edit_comment_link( __( 'Edit', 'duoshuo' ), '<span class="edit-link">', '</span>' ); ?></p>
 	<?php
+	//	end_el函数会自己输出一个</li>
 			break;
 		default :
 	?>
 	<li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
 		<article id="comment-<?php comment_ID(); ?>" class="comment">
 			<footer class="comment-meta">
-				<div class="comment-author vcard">
+				<cite class="comment-author vcard">
 					<?php
-						$avatar_size = 68;
-						if ( '0' != $comment->comment_parent )
-							$avatar_size = 39;
-
-						echo get_avatar( $comment, $avatar_size );
-
 						/* translators: 1: comment author, 2: date and time */
 						printf( __( '%1$s on %2$s <span class="says">said:</span>', 'duoshuo' ),
 							sprintf( '<span class="fn">%s</span>', get_comment_author_link() ),
@@ -33,22 +28,14 @@ function duoshuo_comment( $comment, $args, $depth ) {
 							)
 						);
 					?>
-
-					<?php edit_comment_link( __( 'Edit', 'duoshuo' ), '<span class="edit-link">', '</span>' ); ?>
-				</div><!-- .comment-author .vcard -->
-
-				<?php if ( $comment->comment_approved == '0' ) : ?>
-					<em class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.', 'duoshuo' ); ?></em>
-					<br />
-				<?php endif; ?>
-
+				</cite><!-- .comment-author .vcard -->
 			</footer>
 
 			<div class="comment-content"><?php comment_text(); ?></div>
 			
 		</article><!-- #comment-## -->
-
 	<?php
+	//	end_el函数会自己输出一个</li>
 			break;
 	endswitch;
 }
