@@ -4,7 +4,7 @@ Plugin Name: 多说
 Plugin URI: http://wordpress.org/extend/plugins/duoshuo/
 Description: 追求最佳用户体验的社会化评论框，为中小网站提供“新浪微博、QQ、人人、豆瓣等多帐号登录并评论”功能。“多说”帮你搭建更活跃，互动性更强的评论平台，功能强大且永久免费。
 Author: 多说网
-Version: 0.6
+Version: 0.6.1
 Author URI: http://duoshuo.com/
 */
 
@@ -142,7 +142,7 @@ class DuoshuoClient{
 		$url = $this->end_point . $path. '.' . $this->format;
 		$args = array(
 			'method' => $method,
-			'timeout' => 30,
+			'timeout' => 60,
 			'redirection' => 5,
 			'httpversion' => '1.0',
 			'user-agent' => $this->userAgent,
@@ -161,7 +161,7 @@ class DuoshuoClient{
 				$url .= '?' . http_build_query($params);
 				break;
 			case 'POST':
-				$args['body'] = $params;
+				$args['body'] = http_build_query($params);
 				break;
 			default:
 		}
@@ -235,7 +235,7 @@ class DuoshuoClient{
 class Duoshuo {
 	const DOMAIN = 'duoshuo.com';
 	const STATIC_DOMAIN = 'static.duoshuo.com';
-	const VERSION = '0.6';
+	const VERSION = '0.6.1';
 	
 	/**
 	 * 
@@ -327,15 +327,6 @@ class Duoshuo {
 				add_action('add_meta_boxes_page', array('Duoshuo', 'addPageMetaBoxes'));
 			}
 			
-			if (function_exists('get_post_types')){
-				foreach(get_post_types() as $type)
-					if ($type !== 'nav_menu_item' && $type !== 'revision')
-						add_action('publish_' . $type, array('Duoshuo','syncPostToRemote'));
-			}
-			else{
-				add_action('publish_post', array('Duoshuo','syncPostToRemote'));
-				add_action('publish_page', array('Duoshuo','syncPostToRemote'));
-			}
 			add_action('profile_update', array('Duoshuo', 'syncUserToRemote'));
 			add_action('user_register', array('Duoshuo', 'syncUserToRemote'));
 			
@@ -365,6 +356,11 @@ class Duoshuo {
 			//add_filter('comments_number')
 			if (is_active_widget(false, false, 'recent-comments'))
 				add_action('wp_footer', array('Duoshuo', 'outputFooterCommentJs'));
+			
+			add_filter('comments_number', array('Duoshuo', 'commentsText'));
+				
+			add_action('trackback_post', array('Duoshuo', 'exportOneComment'));
+			add_action('pingback_post', array('Duoshuo', 'exportOneComment'));
 		}
 		
 		add_filter('comments_open', array('Duoshuo', 'commentsOpen'));
@@ -580,7 +576,7 @@ class Duoshuo {
 	    
 	    if (empty($threadId)){
 	    	self::syncUserToRemote($post->post_author);
-	    	self::syncPostToRemote($post);
+	    	self::syncPostToRemote($post->ID, $post);
 		    try{
 		    	self::syncPostComments($post);
 		    }
@@ -592,6 +588,17 @@ class Duoshuo {
 		self::$EMBED = true;
 		return dirname(__FILE__) . '/comments.php';
 	    //	return $value;
+	}
+	
+	static function commentsText($comment_text, $number = null){
+	    global $post;
+	    
+	    $identifier = 'class="ds-comments-number" data-thread-identifier="' . htmlspecialchars($post->ID . ' ' . $post->guid) .'"';
+	    if (preg_match('/^<([a-z]+)( .*)?>(.*)<\/([a-z]+)>$/i', $comment_text, $matches) && $matches[1] == $matches[4]){
+	    	return "<$matches[1] $identifier$matches[2]>$matches[3]</$matches[4]>";
+	    }
+	    else
+		    return "<var $identifier>$comment_text</var>";
 	}
 	
 	static function warning(){
@@ -744,7 +751,7 @@ function updateDuoshuoUnique(unique){
 					$count = self::exportUsers($limit, $offset);
 					break;
 				case 'post':
-					$limit = 20;
+					$limit = 10;
 					$count = self::exportPosts($limit, $offset);
 					break;
 				case 'comment':
@@ -783,10 +790,12 @@ function updateDuoshuoUnique(unique){
 		$columns = array('ID', 'user_nicename', 'user_email', 'user_url', 'user_registered', 'display_name');
 		$users = $wpdb->get_results( $wpdb->prepare("SELECT " . implode(',', $columns) . "  FROM $wpdb->users order by ID asc limit $offset,$limit"));
 		
+		$params = array('users'=>array());
 		$blog_prefix = self::get_blog_prefix();
-	    foreach($users as $user)
+	    foreach($users as $user){
 		    $user->capabilities = self::getUserMeta($user->ID, $blog_prefix.'capabilities');
-		$params = array('data'=>json_encode($users));
+		    $params['users'][] = get_object_vars($user);
+	    }
 		
 		$remoteResponse = self::getClient()->request('POST', 'import/wordpressUsers', $params);
 	
@@ -893,9 +902,11 @@ function updateDuoshuoUnique(unique){
 	static function joinSite($user, $unique){
 		global $wpdb;
 		
-		$data = self::packageUser($user);
-		
-		$params = array('data'=>json_encode($data), 'unique' => $unique, 'short_name'=>self::$shortName);
+		$params = array(
+			'user'		=>	self::packageUser($user),
+			'unique'	=>	$unique,
+			'short_name'=>	self::$shortName
+		);
 		try{
 			$remoteResponse = self::getClient()->request('POST', 'sites/join', $params);
 		
@@ -925,7 +936,7 @@ function updateDuoshuoUnique(unique){
 			$userData->capabilities = self::getUserMeta($user->ID, $blog_prefix.'capabilities', true);
 		}
 		
-		$params = array('data'=>json_encode(array($userData)), 'short_name'=>self::$shortName);
+		$params = array('users'=>array(get_object_vars($userData)), 'short_name'=>self::$shortName);
 		try{
 			$remoteResponse = self::getClient()->request('POST','import/wordpressUsers', $params);
 		
@@ -942,15 +953,15 @@ function updateDuoshuoUnique(unique){
 	static function exportPosts($limit, $offset = 0){
 		global $wpdb;
 		
-		$columns = array('ID', 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_excerpt', 'post_status', 'comment_status', 'post_name', 'post_modified_gmt', 'guid', 'post_type', 'post_parent');
-		$posts = $wpdb->get_results( $wpdb->prepare("SELECT " . implode(',', $columns) . "  FROM $wpdb->posts where post_type <> 'nav_menu_item' and post_status not in ('auto-draft', 'inherit', 'draft', 'trash') order by ID asc limit $offset,$limit") );
+		$columns = array('ID', 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_excerpt', 'post_status', 'comment_status', 'ping_status', 'post_name', 'post_modified_gmt', 'guid', 'post_type', 'post_parent');
+		$posts = $wpdb->get_results( $wpdb->prepare("SELECT " . implode(',', $columns) . "  FROM $wpdb->posts where post_type not in ('nav_menu_item', 'revision') and post_status not in ('auto-draft', 'inherit', 'draft', 'trash') order by ID asc limit $offset,$limit") );
 		
-		$data = array();
-		foreach($posts as $post)
-			$data[] = Duoshuo::packagePost($post);
-		
-		$params = array('data'=>json_encode($data));
-	
+		$params = array(
+			'threads'	=>	array(),
+		);
+		foreach($posts as $index => $post){
+			$params['threads'][] = Duoshuo::packagePost($post);
+		}
 		
 		$remoteResponse = self::getClient()->request('POST','import/wordpressPosts', $params);
 		
@@ -964,17 +975,27 @@ function updateDuoshuoUnique(unique){
 	 * 同步这篇文章到所有社交网站
 	 * @param string $postId
 	 */
-	static function syncPostToRemote($post){
-		if (is_numeric($post))
-			$post = get_post($post);
+	static function syncPostToRemote($postId, $post = null){
+		if ($post == null)
+			$post = get_post($postId);
+		
+		if (in_array($post->post_type, array('nav_menu_item', 'revision'))
+			|| in_array($post->post_status, array('auto-draft', 'inherit', 'draft', 'trash')))
+			return ;
 		
 		$params = self::packagePost($post);
 		
 		$params['local_identity'] = $post->post_author;
 		$params['signature'] = self::buildSignature($post->post_author);
 		
+		if (isset($_POST['sync_to'])){
+			unset($_POST['sync_to'][0]);
+			$params['sync_to'] = implode(',', $_POST['sync_to']);
+		}
+		
 		try{
 			$response = self::getClient()->request('POST', 'threads/sync', $params);
+			
 			if ($response['code'] == 0 && isset($response['response']))
 				update_post_meta($post->ID, 'duoshuo_thread_id', $response['response']['thread_id']);
 		}
@@ -985,6 +1006,20 @@ function updateDuoshuoUnique(unique){
 	
 	static function packagePost($post){
 		$post->custom = get_post_custom($post->ID);
+		$meta = clone ($post);
+		unset($meta->post_title);
+		unset($meta->post_content);
+		unset($meta->post_excerpt);
+		unset($meta->post_date_gmt);
+		unset($meta->post_modified_gmt);
+		unset($meta->post_name);
+		unset($meta->post_status);
+		unset($meta->comment_status);
+		unset($meta->ping_status);
+		unset($meta->guid);
+		unset($meta->post_type);
+		unset($meta->post_author);
+		unset($meta->ID);
 		
 		$params = array(
 			'title'		=>	$post->post_title,
@@ -993,13 +1028,14 @@ function updateDuoshuoUnique(unique){
 			'created_at'=>	mysql2date('Y-m-d\TH:i:sP', $post->post_date_gmt),
 			'updated_at'=>	mysql2date('Y-m-d\TH:i:sP', $post->post_modified_gmt),
 			'ip'		=>	$_SERVER['REMOTE_ADDR'],
-			'url'		=>	get_permalink($post),
+			'url'		=>	urldecode(get_permalink($post)),
 			'slug'		=>	$post->post_name,
 			'status'	=>	$post->post_status,
 			'comment_status'=>	$post->comment_status,
+			'ping_status'=>	$post->ping_status,
 			'guid'		=>	$post->guid,
 			'type'		=>	$post->post_type,
-			'meta'		=>	json_encode($post),
+			'meta'		=>	json_encode($meta),
 			'source'	=>	'wordpress',
 			'source_author_id'=>$post->post_author,
 			'source_thread_id'=>$post->ID,
@@ -1007,9 +1043,6 @@ function updateDuoshuoUnique(unique){
 		
 		if (!class_exists('nggLoader') || class_exists('nggRewrite'))
 			$params['filtered_content'] = str_replace(']]>', ']]&gt;', apply_filters('the_content', $post->post_content));
-		
-		if (isset($_POST['sync_to']))
-			$params['sync_to'] = implode(',', $_POST['sync_to']);
 		
 		if (function_exists('get_post_thumbnail_id')){	//	WordPress 2.9开始支持
 			$post_thumbnail_id = get_post_thumbnail_id( $post->ID );
@@ -1052,25 +1085,30 @@ function updateDuoshuoUnique(unique){
 	static function exportComments($limit, $offset = 0){
 		global $wpdb;
 		
-		$comments = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $wpdb->comments where comment_agent NOT LIKE 'Duoshuo/%%' order by comment_ID asc limit $offset,$limit") );
+		$comments = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $wpdb->comments where comment_agent NOT LIKE 'Duoshuo/%%' order by comment_ID asc limit $offset,$limit"), ARRAY_A);
 		
-		$remoteResponse = self::getClient()->request('POST', 'import/wordpressComments', array('data'=>json_encode($comments)));
-	
-		if (count($comments) < $limit)
-			update_option('duoshuo_synchronized', time());
+		$remoteResponse = self::getClient()->request('POST', 'import/wordpressComments', array('posts'=>$comments));
 		
 		return count($comments);
+	}
+	
+	static function exportOneComment($comment_ID){
+		$comment = get_object_vars(get_comment($comment_ID));
+		
+		$remoteResponse = self::getClient()->request('POST', 'import/wordpressComments', array('posts'=>array($comment)));
+		
+		return $remoteResponse;
 	}
 	
 	static function syncPostComments($post){
 		global $wpdb;
 		
-		$comments = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $wpdb->comments where comment_post_ID = %d AND comment_agent NOT LIKE 'Duoshuo/%%' order by comment_ID asc", $post->ID));
+		$comments = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $wpdb->comments where comment_post_ID = %d AND comment_agent NOT LIKE 'Duoshuo/%%' order by comment_ID asc", $post->ID), ARRAY_A);
 	    
 		$params = array(
 			'local_identity' => $post->post_author,
 			'signature' => self::buildSignature($post->post_author),
-			'data'		=> json_encode($comments),
+			'posts'		=> $comments,
 		);
 		
 		$remoteResponse = self::getClient()->request('POST','import/wordpressComments', $params);
@@ -1123,6 +1161,7 @@ function updateDuoshuoUnique(unique){
 			'approved'	=>	'1',
 			'deleted'	=>	'trash',
 			'spam'		=>	'spam',
+			'thread-deleted'=>'post-trashed',
 		);
 		
 		$threadMap = array();
@@ -1244,8 +1283,13 @@ function updateDuoshuoUnique(unique){
 		$params = array(
 			'template'	=>	'wordpress',
 			'local_identity'=>	$user->ID,
-			'signature'	=> self::buildSignature($user->ID)
+			'signature'	=> self::buildSignature($user->ID),
 		);
+		
+		$threadId = get_post_meta($post->ID, 'duoshuo_thread_id', true);
+		if ($threadId)
+			$params['thread_id'] = $threadId;
+		
 		try{
 			echo self::getClient()->getContents('partials/sync-options', $params);
 		}
@@ -1339,3 +1383,17 @@ else{
 	add_action('init', array('Duoshuo','initialize'));
 }
 add_action('widgets_init', array('Duoshuo','registerWidgets'));
+
+
+add_action('save_post', array('Duoshuo', 'syncPostToRemote'));
+/*
+if (function_exists('get_post_types')){	//	cron jobs runs in common mode, sometimes
+	foreach(get_post_types() as $type)
+		if ($type !== 'nav_menu_item' && $type !== 'revision')
+			add_action('publish_' . $type, array('Duoshuo','syncPostToRemote'));
+}
+else{
+	add_action('publish_post', array('Duoshuo','syncPostToRemote'));
+	add_action('publish_page', array('Duoshuo','syncPostToRemote'));
+}
+*/

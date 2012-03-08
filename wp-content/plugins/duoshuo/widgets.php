@@ -78,6 +78,7 @@ array(2) {
 			'show_avatars'=>isset($instance['show_avatars']) ? $instance['show_avatars'] : 1,
 			'show_time'=>	isset($instance['show_time']) ? $instance['show_time'] : 1,
 			'show_title'=>	isset($instance['show_title']) ? $instance['show_title'] : 1,
+			'show_admin'=>	isset($instance['show_admin']) ? $instance['show_admin'] : 1,
 			'avatar_size'=>	32,
 			'excerpt_length'=>$instance['excerpt_length'],
 		);
@@ -99,6 +100,7 @@ array(2) {
 		$instance['show_avatars'] =  absint( $new_instance['show_avatars'] );
 		$instance['show_time'] =  absint( $new_instance['show_time'] );
 		$instance['show_title'] =  absint( $new_instance['show_title'] );
+		$instance['show_admin'] =  absint( $new_instance['show_admin'] );
 
 		$alloptions = wp_cache_get( 'alloptions', 'options' );
 		if ( isset($alloptions['duoshuo_widget_recent_comments']) )
@@ -113,6 +115,7 @@ array(2) {
 		$show_avatars = isset($instance['show_avatars']) ? absint( $instance['show_avatars']) : 1;
 		$show_title = isset($instance['show_title']) ? absint($instance['show_title']) : 1;
 		$show_time = isset($instance['show_time']) ? absint($instance['show_time']) : 1;
+		$show_admin = isset($instance['show_admin']) ? absint($instance['show_admin']) : 1;
 		$excerpt_length = isset($instance['excerpt_length']) ? absint($instance['excerpt_length']) : 70;
 ?>
 		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>
@@ -135,6 +138,13 @@ array(2) {
 			<input id="<?php echo $this->get_field_id('show_title'); ?>" name="<?php echo $this->get_field_name('show_title'); ?>" type="checkbox" value="1" <?php if ($show_title) echo 'checked="checked" '?>/>
 			<label for="<?php echo $this->get_field_id('show_title'); ?>">显示文章标题</label>
 		</p>
+		
+		<p>
+			<input name="<?php echo $this->get_field_name('show_admin'); ?>" type="hidden" value="0" />
+			<input id="<?php echo $this->get_field_id('show_admin'); ?>" name="<?php echo $this->get_field_name('show_admin'); ?>" type="checkbox" value="1" <?php if ($show_admin) echo 'checked="checked" '?>/>
+			<label for="<?php echo $this->get_field_id('show_admin'); ?>">显示管理员评论</label>
+		</p>
+		
 		<p><label for="<?php echo $this->get_field_id('number'); ?>"><?php _e('Number of comments to show:'); ?></label>
 		<input id="<?php echo $this->get_field_id('number'); ?>" name="<?php echo $this->get_field_name('number'); ?>" type="text" value="<?php echo $number; ?>" size="3" /></p>
 		

@@ -28,10 +28,13 @@ $threadId = get_post_meta($post->ID, 'duoshuo_thread_id', true);
 	foreach ($data as $key => $value)
 		$attribs .= ' data-' . str_replace('_','-',$key) . '="' . esc_attr($value) . '"';
 	?>
-<div id="ds-thread"<?php echo $attribs;?>></div>
+<div class="ds-thread"<?php echo $attribs;?>></div>
+	<?php if (!defined('DUOSHUO_THREAD_INITIALIZED')): define('DUOSHUO_THREAD_INITIALIZED', true);?>
 <script type="text/javascript">
-	DUOSHUO.init('#ds-thread');
+	if (typeof DUOSHUO !== 'undefined')
+		DUOSHUO.init('.ds-thread');
 </script>
+	<?php endif;?>
 <?php endif;
 
 if (get_option('duoshuo_seo_enabled')): //直接输出HTML评论
