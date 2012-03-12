@@ -410,11 +410,15 @@ function image_resize_dimensions($orig_w, $orig_h, $dest_w, $dest_h, $crop = fal
  */
 function image_resize( $file, $max_w, $max_h, $crop = false, $suffix = null, $dest_path = null, $jpeg_quality = 90 ) {
 
-	$image = wp_load_image( $file );
-	if ( !is_resource( $image ) )
-		return new WP_Error( 'error_loading_image', $image, $file );
+	if ( is_numeric( $file ) )
+		$file = get_attached_file( $file );
+	$imagecontent = file_get_contents($file);
+	if ( !$imagecontent )
+		return new WP_Error( 'error_loading_image', sprintf(__('File &#8220;%s&#8221; doesn&#8217;t exist?'), $file), $file );
 
-	$size = @getimagesize( $file );
+	$localtmp = tempnam(SAE_TMP_PATH, 'WPIMG');
+	file_put_contents($localtmp, $imagecontent);
+	$size = @getimagesize( $localtmp );
 	if ( !$size )
 		return new WP_Error('invalid_image', __('Could not read image size'), $file);
 	list($orig_w, $orig_h, $orig_type) = $size;
@@ -424,16 +428,9 @@ function image_resize( $file, $max_w, $max_h, $crop = false, $suffix = null, $de
 		return new WP_Error( 'error_getting_dimensions', __('Could not calculate resized image dimensions') );
 	list($dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h) = $dims;
 
-	$newimage = wp_imagecreatetruecolor( $dst_w, $dst_h );
-
-	imagecopyresampled( $newimage, $image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
-
-	// convert from full colors to index colors, like original PNG.
-	if ( IMAGETYPE_PNG == $orig_type && function_exists('imageistruecolor') && !imageistruecolor( $image ) )
-		imagetruecolortopalette( $newimage, false, imagecolorstotal( $image ) );
-
-	// we don't need the original in memory anymore
-	imagedestroy( $image );
+	$saeimage = new SaeImage();
+	$saeimage->setData( $imagecontent );
+	$saeimage->resize( $dst_w, $dst_h );
 
 	// $suffix will be appended to the destination filename, just before the extension
 	if ( !$suffix )
@@ -447,22 +444,22 @@ function image_resize( $file, $max_w, $max_h, $crop = false, $suffix = null, $de
 	if ( !is_null($dest_path) and $_dest_path = realpath($dest_path) )
 		$dir = $_dest_path;
 	$destfilename = "{$dir}/{$name}-{$suffix}.{$ext}";
-	$tmp = tempnam(SAE_TMP_PATH, 'WPIMG');
 
 	if ( IMAGETYPE_GIF == $orig_type ) {
-		if ( !imagegif( $newimage, $tmp ) || !copy($tmp, $destfilename) )
+		$retcontent = $saeimage->exec('gif');
+		if ( !$retcontent || !file_put_contents($destfilename, $retcontent) )
 			return new WP_Error('resize_path_invalid', __( 'Resize path invalid' ));
 	} elseif ( IMAGETYPE_PNG == $orig_type ) {
-		if ( !imagepng( $newimage, $tmp ) || !copy($tmp, $destfilename) )
+		$retcontent = $saeimage->exec('png');
+		if ( !$retcontent || !file_put_contents($destfilename, $retcontent) )
 			return new WP_Error('resize_path_invalid', __( 'Resize path invalid' ));
 	} else {
 		// all other formats are converted to jpg
 		$destfilename = "{$dir}/{$name}-{$suffix}.jpg";
-		if ( !imagejpeg( $newimage, $tmp, apply_filters( 'jpeg_quality', $jpeg_quality, 'image_resize' ) ) || !copy($tmp, $destfilename) )
+		$retcontent = $saeimage->exec('jpg');
+		if ( !$retcontent || !file_put_contents($destfilename, $retcontent) )
 			return new WP_Error('resize_path_invalid', __( 'Resize path invalid' ));
 	}
-
-	imagedestroy( $newimage );
 
 
 	return $destfilename;
