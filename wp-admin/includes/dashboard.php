@@ -86,8 +86,8 @@ function wp_dashboard_setup() {
 	if ( !isset( $widget_options['dashboard_primary'] ) ) {
 		$update = true;
 		$widget_options['dashboard_primary'] = array(
-			'link' => apply_filters( 'dashboard_primary_link',  __( 'http://wp4sae.sinaapp.com/' ) ),
-			'url' => apply_filters( 'dashboard_primary_feed',  __( 'http://wp4sae.sinaapp.com/?feed=rss2' ) ),
+			'link' => apply_filters( 'dashboard_primary_link',  __( 'http://wp4sae.org/' ) ),
+			'url' => apply_filters( 'dashboard_primary_feed',  __( 'http://wp4sae.org/feed/' ) ),
 			'title' => apply_filters( 'dashboard_primary_title', 'WordPress for SAE 博客' ),
 			'items' => 2,
 			'show_summary' => 1,

@@ -147,9 +147,9 @@ function wp_install_defaults($user_id) {
 
 	// Now drop in some default links
 	$default_links = array();
-	$default_links[] = array(	'link_url' => 'http://wp4sae.sinaapp.com/',
+	$default_links[] = array(	'link_url' => 'http://wp4sae.org/',
 								'link_name' => 'WordPress for SAE',
-								'link_rss' => 'http://wp4sae.sinaapp.com/feed/',
+								'link_rss' => 'http://wp4sae.org/feed/',
 								'link_notes' => '');
 
 	$default_links[] = array(	'link_url' => 'http://wordpress.org/news/',
@@ -187,8 +187,8 @@ function wp_install_defaults($user_id) {
 	if (!$first_post) {
 		$first_post = '欢迎使用 WordPress for SAE。如果您看到这篇文章，表示您的Blog已经在SAE安装成功。您可以编辑或者删除它，然后开始您的博客！
 
-WordPress for SAE 技术支持博客：<a title="WordPress for SAE 技术支持" href="http://wp4sae.sinaapp.com">http://wp4sae.sinaapp.com</a>。请关注此博客，以及时获>取最新信息。
-如果您在使用WordPress for SAE的过程中，有任何疑问、意见或建议，请到<a title="WordPress for SAE 技术支持" href="http://wp4sae.sinaapp.com">技术支持博客</a>提>出，我们将会尽快为您解答。 
+WordPress for SAE 技术支持博客：<a title="WordPress for SAE 技术支持" href="http://wp4sae.org">http://wp4sae.org</a>。请关注此博客，以及时获>取最新信息。
+如果您在使用WordPress for SAE的过程中，有任何疑问、意见或建议，请到<a title="WordPress for SAE 技术支持" href="http://wp4sae.org">技术支持博客</a>提>出，我们将会尽快为您解答。 
 
 WordPress for SAE具有以下特性：
 <ol>
@@ -202,7 +202,7 @@ WordPress for SAE 已经为您集成了以下插件，您可以到根据您的�
 <ol>
     <li>Add To Any: 分享插件，可以在您的文章结尾添加分享按钮，一键分享到新浪微博、twitter、facebook等网站，但对国内网站支持较少</li>
     <li>JiaThis：同样是分享插件，功能不如Add To Any强大，但是对国内网站如新浪微博、腾讯微博、人人等支持比较全。</li>
-    <li>Akismet：WordPress内置插件，用于防拉圾评论，使用说明见： http://wp4sae.sinaapp.com/2011/05/akismet-introduce/</li>
+    <li>Akismet：WordPress内置插件，用于防拉圾评论，使用说明见： http://wp4sae.org/2011/05/akismet-introduce/</li>
     <li>Google Analytics for WordPress：为网站添加Google Analytics统计代码。</li>
     <li>Google XML Sitemaps：生成网站sitemap，并自动提交到Google, Bing和Ask.com</li>
     <li>Lightbox 2：无刷新显示原始图片</li>
