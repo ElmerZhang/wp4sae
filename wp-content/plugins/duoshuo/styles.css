@@ -23,3 +23,7 @@
 .ds-service-icon a.ds-baidu {background-position: 0 -352px;}
 .ds-service-icon a.ds-taobao {background-position: 0 -2016px;}
 .ds-service-icon a.ds-msn {background-position: 0 -864px;}
+
+#icon-duoshuo{
+	background: url("images/head-icon.gif") no-repeat scroll 0 4px transparent;
+}

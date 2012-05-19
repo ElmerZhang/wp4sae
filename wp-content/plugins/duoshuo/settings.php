@@ -1,15 +1,11 @@
+<link rel="stylesheet" href="<?php echo self::$pluginDirUrl; ?>styles.css" type="text/css" />
 <div class="wrap">
 <?php screen_icon(); ?>
 <h2>多说评论框设置</h2>
 
 <?php try{
-$user = wp_get_current_user();
-$params = array(
-	'template'	=>	'wordpress',
-	'local_identity'=>	$user->ID,
-	'signature'	=> Duoshuo::buildSignature($user->ID)
-);
-$content = Duoshuo::getClient()->getContents('settings', $params);?>
+$params = array('template'	=>	'wordpress');
+$content = Duoshuo::getHtml('settings', $params);?>
 
 <form action="" method="post">
 <?php wp_nonce_field('duoshuo-options');?>
@@ -35,6 +31,10 @@ catch(Duoshuo_Exception $e){
 		<tr valign="top">
 			<th scope="row">SEO优化</th>
 			<td><input type="checkbox" name="duoshuo_seo_enabled" value="1" <?php if (get_option('duoshuo_seo_enabled')) echo ' checked="checked"';?>/>搜索引擎爬虫访问网页时，显示静态HTML评论</td>
+		</tr>
+		<tr valign="top">
+			<th scope="row">社交帐号登录</th>
+			<td><input type="checkbox" name="duoshuo_social_login_enabled" value="1" <?php if (get_option('duoshuo_social_login_enabled')) echo ' checked="checked"';?>/>允许用社交帐号登录WordPress</td>
 		</tr>
 		<tr valign="top">
 			<th scope="row">评论框前缀</th>
@@ -81,7 +81,6 @@ $services = array(
 );
 
 ?>
-<link rel="stylesheet" href="<?php echo self::$pluginDirUrl; ?>styles.css" type="text/css" />
 <h3>我们永远相信，分享是一种美德</h3>
 <p style="width:100%;overflow: hidden;">把多说分享给你的朋友：</p>
 <ul class="ds-share ds-service-icon">

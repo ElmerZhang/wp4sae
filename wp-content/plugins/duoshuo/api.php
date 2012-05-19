@@ -59,11 +59,18 @@ try{
 		
 		$signature = $input['signature'];
 		unset($input['signature']);
-		ksort($input);
-		$secret = get_option('duoshuo_secret');
 		
-		if ($signature !== base64_encode(hash_hmac('sha1', http_build_query($input), $secret, true)))
-			throw new Duoshuo_Exception('Invalid signature.', Duoshuo_Exception::INVALID_SIGNATURE);
+		if (isset($input['spam_confirmed']))	//D-Z Theme 会给POST设置这个参数
+			unset($input['spam_confirmed']);
+		
+		ksort($input);
+		$baseString = http_build_query($input, null, '&');
+		
+		$secret = get_option('duoshuo_secret');
+		$expectSignature = base64_encode(hash_hmac('sha1', $baseString, $secret, true));
+		
+		if ($signature !== $expectSignature)
+			throw new Duoshuo_Exception('Invalid signature, expect: ' . $expectSignature . '. (' . $baseString . ')', Duoshuo_Exception::INVALID_SIGNATURE);
 		
 		$server = new DuoshuoLocalServer();
 		$method = $input['action'];
