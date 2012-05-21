@@ -1083,8 +1083,7 @@ class WP_Http_Curl {
 			// cURL expects full header strings in each element
 			$headers = array();
 			foreach ( $r['headers'] as $name => $value ) {
-				if ( strtolower($name) != 'host' )
-					$headers[] = "{$name}: $value";
+				$headers[] = "{$name}: $value";
 			}
 			curl_setopt( $handle, CURLOPT_HTTPHEADER, $headers );
 		}
