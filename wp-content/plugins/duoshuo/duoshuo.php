@@ -1590,3 +1590,4 @@ else{
 // 感谢“我爱水煮鱼”的建议
 get_post_types(array('public'   => true, '_builtin' => false), 'names', 'and');
 */
+// WordPress for SAE

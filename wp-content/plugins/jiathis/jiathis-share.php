@@ -109,3 +109,4 @@ function jiathis_options() {
 	echo '</form>';
 	echo '</div>';
 }
+// WordPress for SAE
