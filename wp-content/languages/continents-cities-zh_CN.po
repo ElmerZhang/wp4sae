@@ -1,10 +1,10 @@
-# Copyright (C) 2010 WordPress
+# Copyright (C) 2012 WordPress
 # This file is distributed under the same license as the WordPress package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WordPress 3.3\n"
-"Report-Msgid-Bugs-To: wp-polyglots@lists.automattic.com\n"
-"POT-Creation-Date: 2011-12-11 00:38:33+00:00\n"
+"Project-Id-Version: WordPress 3.4\n"
+"Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
+"POT-Creation-Date: 2012-06-13 18:19:11+00:00\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Jiehan Zheng <zheng@jiehan.org>\n"
 "Language-Team: WordPress China <wpchina@jiehan.org>\n"
@@ -519,8 +519,9 @@ msgid "Petersburg"
 msgstr ""
 
 #: wp-admin/includes/continents-cities.php:133
+#, fuzzy
 msgid "Tell City"
-msgstr ""
+msgstr "选择一个城市"
 
 #: wp-admin/includes/continents-cities.php:134
 msgid "Vevay"
@@ -563,8 +564,9 @@ msgid "Monticello"
 msgstr ""
 
 #: wp-admin/includes/continents-cities.php:144
+#, fuzzy
 msgid "Knox IN"
-msgstr ""
+msgstr "登录"
 
 #: wp-admin/includes/continents-cities.php:145
 msgid "La Paz"
@@ -611,8 +613,9 @@ msgid "Merida"
 msgstr ""
 
 #: wp-admin/includes/continents-cities.php:156
+#, fuzzy
 msgid "Mexico City"
-msgstr ""
+msgstr "选择一个城市"
 
 #: wp-admin/includes/continents-cities.php:157
 msgid "Miquelon"
@@ -643,8 +646,9 @@ msgid "Nassau"
 msgstr ""
 
 #: wp-admin/includes/continents-cities.php:164
+#, fuzzy
 msgid "New York"
-msgstr ""
+msgstr "输入新栏目"
 
 #: wp-admin/includes/continents-cities.php:165
 msgid "Nipigon"
@@ -663,12 +667,14 @@ msgid "North Dakota"
 msgstr ""
 
 #: wp-admin/includes/continents-cities.php:169
+#, fuzzy
 msgid "Center"
-msgstr ""
+msgstr "中"
 
 #: wp-admin/includes/continents-cities.php:170
+#, fuzzy
 msgid "New Salem"
-msgstr ""
+msgstr "输入新栏目"
 
 #: wp-admin/includes/continents-cities.php:171
 msgid "Panama"
@@ -779,8 +785,9 @@ msgid "St Vincent"
 msgstr ""
 
 #: wp-admin/includes/continents-cities.php:198
+#, fuzzy
 msgid "Swift Current"
-msgstr ""
+msgstr "%1$s [当前修订版本]"
 
 #: wp-admin/includes/continents-cities.php:199
 msgid "Tegucigalpa"
@@ -1259,8 +1266,9 @@ msgid "Faroe"
 msgstr ""
 
 #: wp-admin/includes/continents-cities.php:318
+#, fuzzy
 msgid "Jan Mayen"
-msgstr ""
+msgstr "一"
 
 #: wp-admin/includes/continents-cities.php:319
 msgid "Madeira"
@@ -1299,8 +1307,9 @@ msgid "Brisbane"
 msgstr ""
 
 #: wp-admin/includes/continents-cities.php:328
+#, fuzzy
 msgid "Broken Hill"
-msgstr ""
+msgstr "损坏的主题"
 
 #: wp-admin/includes/continents-cities.php:329
 msgid "Canberra"
@@ -1591,8 +1600,9 @@ msgid "Helsinki"
 msgstr ""
 
 #: wp-admin/includes/continents-cities.php:401
+#, fuzzy
 msgid "Isle of Man"
-msgstr ""
+msgstr "神秘人"
 
 #: wp-admin/includes/continents-cities.php:402
 msgid "Jersey"

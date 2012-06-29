@@ -40,10 +40,6 @@
 			</li>
 
 		<?php endif; // end primary widget area ?>
-			<li id="saelogo" class="widget-container">
-				<a id="saelogo" href="http://sae.sina.com.cn" target="_blank"><img src="http://static.sae.sina.com.cn/image/poweredby/poweredby.png" title="Powered by Sina App Engine" /></a>
-			</li>
-
 			</ul>
 		</div><!-- #primary .widget-area -->
 
