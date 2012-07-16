@@ -1,0 +1,45 @@
+<appwizard> 
+	<introduction> 
+		<name>WordPress for SAE</name> 
+        <author>WordPress & ElmerZhang</author> 
+		<icon>/static/image/app_icons/wordpress.jpg</icon> 
+		<homepage>http://wp4sae.sinaapp.com/</homepage> 
+		<description> 
+		<![CDATA[
+        WordPress for SAE 技术支持博客：<a title="WordPress for SAE 技术支持" href="http://wp4sae.org">http://wp4sae.org</a>。请关注此博客，以及时获取最新信息。
+        如果您在使用WordPress for SAE的过程中，有任何疑问、意见或建议，请到<a title="WordPress for SAE 技术支持" href="http://wp4sae.org">技术支持博客</a>提出，我们将会尽快为您解答。
+
+        WordPress for SAE 具有以下特性：
+        <ol>
+            <li>数据库主从分离，提升性能，节省云豆消耗</li>
+            <li>轻量的Memcache缓存模块，加快网页显示速度的同时减少资源消耗，为您节省云豆。</li>
+            <li>已内置urlrewrite规则，用户设置固定链接时只需要在控制板中设置一下即可，无需再修改appconfig(.htaccess)配置</li>
+            <li>附件直接上传到Storage，支持图片附件的缩略图生成。</li>
+        </ol>
+
+        WordPress for SAE 的限制：
+        由于SAE不支持本地代码目录写入，故无法支持在线安装主题、插件，在线编辑主题、插件功能。
+		]]>
+		</description> 
+	</introduction> 
+	<platform> 
+		<services> 
+			<service name="wordpress"  params="public">Storage</service> 
+			<service size="1M">Memcache</service> 
+			<service>Mysql</service> 
+		</services> 
+		<appconfig> 
+			<tpl> 
+            <![CDATA[
+name: <<appname>>
+version: <<version>>
+handle:
+  - rewrite:if (!is_file() && !is_dir() && path ~ "^/(.*)") goto "index.php/$1"
+            ]]>
+			</tpl> 
+		</appconfig> 
+	</platform> 
+	<code> 
+	<initScript>index.php</initScript> 
+	</code> 
+</appwizard> 
